@@ -37,16 +37,14 @@ svg{display:block;width:100%;height:100%}
 .pt{cursor:pointer;transition:opacity .12s}
 .pt.dim{opacity:.13}
 .guide{stroke:#C8952B;stroke-width:1;stroke-dasharray:3 3;opacity:0}
-.navbar{flex-shrink:0;border-top:1px solid #1E2947;background:#0F1830;display:flex;align-items:flex-start;gap:8px;padding:9px 10px;position:relative;z-index:10}
+.navbar{flex-shrink:0;border-top:1px solid #1E2947;background:#0F1830;display:flex;align-items:center;justify-content:center;gap:12px;padding:8px 10px;position:relative;z-index:10}
 .navbar[hidden]{display:none}
-.nav-btn{flex-shrink:0;margin-top:2px;background:#141C36;border:1px solid #26304F;border-radius:6px;color:#C4CDE4;font-family:Calibri,sans-serif;font-size:14px;width:38px;height:38px;min-width:38px;cursor:pointer;transition:border-color .14s,color .14s}
+.nav-btn{flex-shrink:0;background:#141C36;border:1px solid #26304F;border-radius:6px;color:#C4CDE4;font-family:Calibri,sans-serif;font-size:14px;width:38px;height:38px;min-width:38px;cursor:pointer;transition:border-color .14s,color .14s}
 .nav-btn:hover{border-color:#C8952B;color:#C8952B}
 .nav-btn:active{background:#1B2440}
-.nav-info{flex:1 1 auto;min-width:0;max-height:42vh;overflow-y:auto;padding-right:2px}
-.nav-info::-webkit-scrollbar{width:6px}
-.nav-info::-webkit-scrollbar-thumb{background:#26304F;border-radius:3px}
 .nav-pos{font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:#C8952B;font-weight:700;margin-bottom:4px}
-.nav-x{flex-shrink:0;margin-top:2px;background:none;border:none;color:#5A6680;font-size:13px;cursor:pointer;width:32px;height:38px}
+.navbar .nav-pos{font-size:9px;color:#8894B4;min-width:70px;text-align:center;margin-bottom:0}
+.nav-x{flex-shrink:0;background:none;border:none;color:#5A6680;font-size:13px;cursor:pointer;width:32px;height:38px}
 .nav-x:hover{color:#C8952B}
 @media(max-width:520px){
   .nav-btn{width:44px;height:44px;min-width:44px;font-size:16px}
@@ -104,7 +102,7 @@ svg{display:block;width:100%;height:100%}
 .menu-section p{font-size:11.5px;color:#C4CDE4;line-height:1.55}
 .tip{position:fixed;z-index:99;background:#141C36;border:1px solid #26304F;border-top:3px solid #C8952B;border-radius:8px;padding:13px 15px;width:300px;max-width:calc(100vw - 24px);pointer-events:none;opacity:0;transition:opacity .12s}
 .tip.on{opacity:1}
-.tip.pin{border-top-width:3px;box-shadow:0 6px 28px rgba(0,0,0,.55)}
+.tip.pin,.tip.nav-pin{border-top-width:3px;box-shadow:0 6px 28px rgba(0,0,0,.55)}
 .tip-k{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#C8952B;font-weight:700}
 .tip-t{font-size:13px;font-weight:700;color:#E8ECF6;margin-top:5px;line-height:1.3;font-family:Cambria,Georgia,serif}
 .tip-v{font-size:22px;font-weight:700;margin-top:7px;line-height:1;font-family:Cambria,Georgia,serif}
@@ -147,7 +145,7 @@ svg{display:block;width:100%;height:100%}
   <div class="stage" id="stage"></div>
   <div class="navbar" id="navBar" hidden>
     <button class="nav-btn" id="navPrev" type="button" aria-label="Fato anterior">◀</button>
-    <div class="nav-info" id="navInfo"></div>
+    <div class="nav-pos" id="navInfo"></div>
     <button class="nav-btn" id="navNext" type="button" aria-label="Próximo fato">▶</button>
     <button class="nav-x" id="navClose" type="button" aria-label="Fechar navegação">✕</button>
   </div>
@@ -1215,6 +1213,7 @@ function eixoLog(svg,x0,x1,ymin,ymax,yaxis,pmin,pmax){
 function render(){
   locked.forEach(L=>{if(L.el)L.el.remove();});
   locked=[];hideTip();
+  if(navTipEl){navTipEl.remove();navTipEl=null;}
   stage.innerHTML='';
   const W=stage.clientWidth,H=stage.clientHeight;
   if(!W||!H)return;
@@ -1313,7 +1312,7 @@ function render(){
 
     ord.forEach((d,i)=>{
       const c=ponto(d,xOfI(i),yOfV(d.v),r);
-      if(i===navIndex){c.setAttribute('stroke','#E8ECF6');c.setAttribute('stroke-width','2.5');}
+      if(i===navIndex){c.setAttribute('stroke','#E8ECF6');c.setAttribute('stroke-width','2.5');navCircleEl=c;}
       c.addEventListener('click',()=>navSelectDirect(i,c,d));
       svg.appendChild(c);
     });
@@ -1415,16 +1414,26 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){soltar();navHide();
 
 /* ---------- navegação por fato: setas do teclado (desktop) e botões ◀▶ (sempre visíveis, também no mobile) ---------- */
 const navBar=document.getElementById('navBar'),navInfo=document.getElementById('navInfo'),navPrev=document.getElementById('navPrev'),navNext=document.getElementById('navNext'),navClose=document.getElementById('navClose');
-let navCircleEl=null;
-function navInfoHTML(i,d,total){
-  return '<div class="nav-pos">'+(i+1)+' de '+total+'</div>'+tipHTML(d,{pin:true});
+let navCircleEl=null,navTipEl=null;
+// mostra o tooltip fixado no próprio ponto (mesmo visual do hover/clique), ancorado nas coordenadas reais do círculo na tela
+function navRenderTip(d,circleEl){
+  if(navTipEl){navTipEl.remove();navTipEl=null;}
+  if(!circleEl)return;
+  const rect=circleEl.getBoundingClientRect();
+  const elx=document.createElement('div');
+  elx.className='tip on nav-pin';
+  elx.innerHTML=tipHTML(d,{pin:true});
+  navTipEl=elx;
+  posicionaFixo(elx,rect.left+rect.width/2,rect.top+rect.height/2);
 }
 // clique direto num ponto: destaca sem recriar o SVG inteiro, preserva o compare-por-clique existente
+// (o próprio clique já abre o tooltip fixado de sempre, na posição do cursor — não duplicamos aqui)
 function navSelectDirect(i,c,d){
   if(navCircleEl&&navCircleEl!==c){navCircleEl.setAttribute('stroke','#0E1428');navCircleEl.setAttribute('stroke-width','1');}
   navIndex=i;navCircleEl=c;
   c.setAttribute('stroke','#E8ECF6');c.setAttribute('stroke-width','2.5');
-  if(navInfo)navInfo.innerHTML=navInfoHTML(i,d,ordAtual.length);
+  if(navTipEl){navTipEl.remove();navTipEl=null;}
+  if(navInfo)navInfo.textContent=(i+1)+' de '+ordAtual.length;
   if(navBar)navBar.hidden=false;
 }
 // navegação por teclado/botões: precisa re-renderizar para destacar o ponto do novo índice
@@ -1434,12 +1443,14 @@ function navShow(i){
   navCircleEl=null;
   render();
   const d=ordAtual[navIndex];
-  if(navInfo)navInfo.innerHTML=navInfoHTML(navIndex,d,ordAtual.length);
+  navRenderTip(d,navCircleEl);
+  if(navInfo)navInfo.textContent=(navIndex+1)+' de '+ordAtual.length;
   if(navBar)navBar.hidden=false;
 }
 function navHide(){
   if(navIndex==null)return;
   navIndex=null;navCircleEl=null;
+  if(navTipEl){navTipEl.remove();navTipEl=null;}
   if(navBar)navBar.hidden=true;
   render();
 }
