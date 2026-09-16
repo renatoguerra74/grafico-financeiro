@@ -37,16 +37,16 @@ svg{display:block;width:100%;height:100%}
 .pt{cursor:pointer;transition:opacity .12s}
 .pt.dim{opacity:.13}
 .guide{stroke:#C8952B;stroke-width:1;stroke-dasharray:3 3;opacity:0}
-.navbar{flex-shrink:0;border-top:1px solid #1E2947;background:#0F1830;display:flex;align-items:center;gap:8px;padding:7px 10px;position:relative;z-index:10}
+.navbar{flex-shrink:0;border-top:1px solid #1E2947;background:#0F1830;display:flex;align-items:flex-start;gap:8px;padding:9px 10px;position:relative;z-index:10}
 .navbar[hidden]{display:none}
-.nav-btn{flex-shrink:0;background:#141C36;border:1px solid #26304F;border-radius:6px;color:#C4CDE4;font-family:Calibri,sans-serif;font-size:14px;width:38px;height:38px;min-width:38px;cursor:pointer;transition:border-color .14s,color .14s}
+.nav-btn{flex-shrink:0;margin-top:2px;background:#141C36;border:1px solid #26304F;border-radius:6px;color:#C4CDE4;font-family:Calibri,sans-serif;font-size:14px;width:38px;height:38px;min-width:38px;cursor:pointer;transition:border-color .14s,color .14s}
 .nav-btn:hover{border-color:#C8952B;color:#C8952B}
 .nav-btn:active{background:#1B2440}
-.nav-info{flex:1 1 auto;min-width:0;overflow:hidden}
-.nav-pos{font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:#C8952B;font-weight:700}
-.nav-title{font-size:11.5px;color:#E8ECF6;font-family:Cambria,Georgia,serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3;margin-top:1px}
-.nav-meta{font-size:9.5px;color:#8894B4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
-.nav-x{flex-shrink:0;background:none;border:none;color:#5A6680;font-size:13px;cursor:pointer;width:32px;height:38px}
+.nav-info{flex:1 1 auto;min-width:0;max-height:42vh;overflow-y:auto;padding-right:2px}
+.nav-info::-webkit-scrollbar{width:6px}
+.nav-info::-webkit-scrollbar-thumb{background:#26304F;border-radius:3px}
+.nav-pos{font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:#C8952B;font-weight:700;margin-bottom:4px}
+.nav-x{flex-shrink:0;margin-top:2px;background:none;border:none;color:#5A6680;font-size:13px;cursor:pointer;width:32px;height:38px}
 .nav-x:hover{color:#C8952B}
 @media(max-width:520px){
   .nav-btn{width:44px;height:44px;min-width:44px;font-size:16px}
@@ -1417,7 +1417,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){soltar();navHide();
 const navBar=document.getElementById('navBar'),navInfo=document.getElementById('navInfo'),navPrev=document.getElementById('navPrev'),navNext=document.getElementById('navNext'),navClose=document.getElementById('navClose');
 let navCircleEl=null;
 function navInfoHTML(i,d,total){
-  return '<div class="nav-pos">'+(i+1)+' de '+total+'</div><div class="nav-title">'+d.t+'</div><div class="nav-meta">'+fmt_tip(d.v)+' · '+d.src+' · '+d.d+'</div>';
+  return '<div class="nav-pos">'+(i+1)+' de '+total+'</div>'+tipHTML(d,{pin:true});
 }
 // clique direto num ponto: destaca sem recriar o SVG inteiro, preserva o compare-por-clique existente
 function navSelectDirect(i,c,d){
