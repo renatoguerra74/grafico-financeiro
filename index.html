@@ -76,7 +76,7 @@ svg{display:block;width:100%;height:100%}
 .ord-item:hover{background:#1B2440}
 .ord-item.on{background:#1B2440}
 .ord-item .ord-dot{width:6px;height:6px;border-radius:50%;background:#26304F;flex-shrink:0;margin-top:5px;transition:background .14s}
-.ord-item.on .ord-dot{background:#C8952B}
+.ord-item.on .ord-dot{background:var(--grp-color,#C8952B)}
 .ord-item .ord-label{font-size:10.5px;color:#C4CDE4;line-height:1.35}
 .ord-item .ord-sub{font-size:9px;color:#5A6680;margin-top:1px}
 .menu-btn{background:none;border:1px solid #26304F;border-radius:4px;color:#8894B4;font-family:Calibri,sans-serif;font-size:10px;padding:3px 10px;cursor:pointer;letter-spacing:.08em}
@@ -153,7 +153,8 @@ svg{display:block;width:100%;height:100%}
         </div>
         <div class="menu-section">
           <h4>Marcar uma referência no eixo X</h4>
-          <p>No menu <strong style="color:#E8ECF6">Referências</strong> (rodapé) escolha um PIB do G20 ou uma rubrica do Orçamento Federal (LOA 2026): uma linha vertical <strong style="color:#0F766E">verde-azulada</strong> aparece no ranking, mostrando onde aquele valor cairia entre os 339 fatos — quantos fatos valem menos e quantos valem mais. Pode marcar mais de uma referência ao mesmo tempo; clique de novo no item para remover.</p>
+          <p>No menu <strong style="color:#E8ECF6">Referências</strong> (rodapé) abra uma categoria e escolha um item: uma linha vertical aparece no ranking, na cor da categoria, mostrando onde aquele valor cairia entre os fatos — quantos valem menos e quantos valem mais. Pode marcar itens de várias categorias ao mesmo tempo; clique de novo no item para remover.</p>
+          <p style="margin-top:8px">Categorias disponíveis: <strong style="color:#06B6D4">PIB nominal — G20</strong>, <strong style="color:#6366F1">Orçamento Federal — LOA 2026</strong>, <strong style="color:#A78BFA">Estados — orçamento por porte</strong>, <strong style="color:#F2A0A0">Municípios — orçamento por porte</strong> e <strong style="color:#A9DBB4">Investimento público</strong> (infraestrutura, saúde, educação e segurança). Valores de estados/municípios vêm das respectivas LOAs 2026; segurança pública nacional, do Anuário Brasileiro de Segurança Pública 2025; Novo PAC, dos balanços oficiais do programa.</p>
         </div>
         <div class="menu-section">
           <h4>Linha de corte</h4>
@@ -996,7 +997,13 @@ const MEDIANA_V=1100e6;
 DATA.forEach(d=>{d.dist_med=Math.log10(d.v)-Math.log10(MEDIANA_V);d.pct=null;});
 
 /* ---------- referências marcáveis no eixo X (rank) ---------- */
-const Y_OPCOES=[{"grupo": "PIB nominal — G20 (FMI, WEO abril 2026)", "itens": [{"nome": "EUA", "valor": 164341452000000.0}, {"nome": "China", "valor": 105822090000000.0}, {"nome": "Alemanha", "valor": 27660930000000.0}, {"nome": "Japão", "valor": 22230252000000.0}, {"nome": "Reino Unido", "valor": 21621204000000.0}, {"nome": "Índia", "valor": 21062910000000.0}, {"nome": "França", "valor": 18271440000000.0}, {"nome": "Itália", "valor": 13906596000000.0}, {"nome": "Rússia", "valor": 13500564000000.0}, {"nome": "Brasil", "valor": 13399056000000.0}, {"nome": "Canadá", "valor": 12739254000000.0}, {"nome": "Austrália", "valor": 10759848000000.0}, {"nome": "México", "valor": 10759848000000.0}, {"nome": "Coreia do Sul", "valor": 9795522000000.0}, {"nome": "Turquia", "valor": 8323656000000.0}, {"nome": "Indonésia", "valor": 7816116000000.0}, {"nome": "Arábia Saudita", "valor": 7054806000000.0}, {"nome": "Argentina", "valor": 3491875200000.0}, {"nome": "África do Sul", "valor": 2436192000000.0}]}, {"grupo": "Orçamento Federal — LOA 2026 (Lei 15.346)", "itens": [{"nome": "Orçamento total da União", "valor": 6540000000000.0}, {"nome": "Orçamento total sem dívida", "valor": 4700000000000.0}, {"nome": "Saúde (SUS)", "valor": 271300000000.0}, {"nome": "Educação", "valor": 233700000000.0}, {"nome": "Bolsa Família", "valor": 158600000000.0}, {"nome": "Piso de investimentos (PAC)", "valor": 111400000000.0}, {"nome": "Pé-de-Meia", "valor": 11500000000.0}]}];
+const Y_OPCOES=[
+  {"grupo":"PIB nominal — G20 (FMI, WEO abril 2026)","cor":"#06B6D4","itens":[{"nome":"EUA","valor":164341452000000.0},{"nome":"China","valor":105822090000000.0},{"nome":"Alemanha","valor":27660930000000.0},{"nome":"Japão","valor":22230252000000.0},{"nome":"Reino Unido","valor":21621204000000.0},{"nome":"Índia","valor":21062910000000.0},{"nome":"França","valor":18271440000000.0},{"nome":"Itália","valor":13906596000000.0},{"nome":"Rússia","valor":13500564000000.0},{"nome":"Brasil","valor":13399056000000.0},{"nome":"Canadá","valor":12739254000000.0},{"nome":"Austrália","valor":10759848000000.0},{"nome":"México","valor":10759848000000.0},{"nome":"Coreia do Sul","valor":9795522000000.0},{"nome":"Turquia","valor":8323656000000.0},{"nome":"Indonésia","valor":7816116000000.0},{"nome":"Arábia Saudita","valor":7054806000000.0},{"nome":"Argentina","valor":3491875200000.0},{"nome":"África do Sul","valor":2436192000000.0}]},
+  {"grupo":"Orçamento Federal — LOA 2026 (Lei 15.346)","cor":"#6366F1","itens":[{"nome":"Orçamento total da União","valor":6540000000000.0},{"nome":"Orçamento total sem dívida","valor":4700000000000.0},{"nome":"Saúde (SUS)","valor":271300000000.0},{"nome":"Educação","valor":233700000000.0},{"nome":"Bolsa Família","valor":158600000000.0},{"nome":"Piso de investimentos (PAC)","valor":111400000000.0},{"nome":"Pé-de-Meia","valor":11500000000.0}]},
+  {"grupo":"Estados — orçamento por porte (LOA 2026)","cor":"#A78BFA","itens":[{"nome":"Roraima (menor orçamento estadual)","valor":9920000000.0},{"nome":"Amapá","valor":12425000000.0},{"nome":"Espírito Santo","valor":32937454345.0},{"nome":"Mato Grosso","valor":40700000000.0},{"nome":"Bahia","valor":77390000000.0},{"nome":"São Paulo (maior orçamento estadual)","valor":382300000000.0}]},
+  {"grupo":"Municípios — orçamento por porte (LOA 2026)","cor":"#F2A0A0","itens":[{"nome":"Olímpia-SP (~60 mil hab.)","valor":454000000.0},{"nome":"Caxias do Sul-RS (~520 mil hab.)","valor":3984718570.0},{"nome":"João Pessoa-PB (capital)","valor":5451526730.0},{"nome":"Porto Alegre-RS (capital)","valor":13690000000.0},{"nome":"Rio de Janeiro (capital)","valor":52400000000.0},{"nome":"São Paulo (maior orçamento municipal)","valor":137400000000.0}]},
+  {"grupo":"Investimento público — infra, saúde, educação, segurança","cor":"#A9DBB4","itens":[{"nome":"Segurança pública — Bahia (2026)","valor":7600000000.0},{"nome":"Segurança pública — Brasil, todos os estados (2025)","valor":163120000000.0},{"nome":"Saúde — Bahia (2026)","valor":13000000000.0},{"nome":"Saúde — Estado de SP (2026)","valor":37900000000.0},{"nome":"Educação — Bahia (2026)","valor":12400000000.0},{"nome":"Educação — Prefeitura do Rio (2026)","valor":10000000000.0},{"nome":"Educação — Prefeitura de SP (2026)","valor":26530000000.0},{"nome":"Novo PAC — Ferrovias (até 2026)","valor":94200000000.0},{"nome":"Novo PAC — Rodovias (até 2026)","valor":185800000000.0},{"nome":"Novo PAC — Energia (até 2026)","valor":466700000000.0},{"nome":"Novo PAC — total (até 2026)","valor":1300000000000.0}]}
+];
 let marcasAtivas=[]; // {nome, valor} — referências marcadas no eixo X (múltiplas)
 
 
@@ -1275,7 +1282,8 @@ function render(){
     }
     marcasAtivas.forEach(mk=>{
       const xx=xOfI(rankOfValue(mk.valor));
-      svg.appendChild(el('line',{x1:xx,y1:y0,x2:xx,y2:y1,style:'stroke:#0F766E;stroke-width:1.2;stroke-dasharray:4 3;opacity:.8'}));
+      const cor=mk.cor||'#0F766E';
+      svg.appendChild(el('line',{x1:xx,y1:y0,x2:xx,y2:y1,style:'stroke:'+cor+';stroke-width:1.2;stroke-dasharray:4 3;opacity:.8'}));
     });
 
     ord.forEach((d,i)=>{svg.appendChild(ponto(d,xOfI(i),yOfV(d.v),r));});
@@ -1283,8 +1291,9 @@ function render(){
     marcasAtivas.forEach((mk,mi)=>{
       const xx=xOfI(rankOfValue(mk.valor));
       const ly=y0+12+((mi%3)*13);
+      const cor=mk.cor||'#0F766E';
       const lbl=el('text',{x:xx,y:ly,class:'axis-t','text-anchor':'middle'});
-      lbl.setAttribute('style','fill:#0F766E;font-size:9px;font-weight:700');
+      lbl.setAttribute('style','fill:'+cor+';font-size:9px;font-weight:700');
       lbl.textContent=mk.nome+' · '+fmt_tip(mk.valor);
       svg.appendChild(lbl);
     });
@@ -1329,9 +1338,11 @@ const yBtn=document.getElementById('yBtn'),yDropdown=document.getElementById('yD
 const Y_FLAT=[];
 let yHtml='';
 Y_OPCOES.forEach((grupo,gi)=>{
-  yHtml+='<div class="ord-head ord-head-toggle" data-grp="'+gi+'"><span class="ord-caret">▸</span>'+grupo.grupo+'<span class="ord-count">'+grupo.itens.length+'</span></div>';
-  yHtml+='<div class="ord-group" data-grp="'+gi+'">';
+  const cor=grupo.cor||'#C8952B';
+  yHtml+='<div class="ord-head ord-head-toggle" data-grp="'+gi+'" style="color:'+cor+'"><span class="ord-caret">▸</span>'+grupo.grupo+'<span class="ord-count">'+grupo.itens.length+'</span></div>';
+  yHtml+='<div class="ord-group" data-grp="'+gi+'" style="--grp-color:'+cor+'">';
   grupo.itens.forEach(item=>{
+    item.cor=cor;
     const idx=Y_FLAT.length;Y_FLAT.push(item);
     yHtml+='<div class="ord-item" data-idx="'+idx+'"><span class="ord-dot"></span><div><div class="ord-label">'+item.nome+'</div><div class="ord-sub">'+fmt_tip(item.valor)+'</div></div></div>';
   });
