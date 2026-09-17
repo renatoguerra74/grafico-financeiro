@@ -54,33 +54,32 @@ svg{display:block;width:100%;height:100%}
   .nav-btn{width:44px;height:44px;min-width:44px;font-size:16px}
   .nav-x{width:36px;height:44px}
 }
-.footer{flex-shrink:0;border-top:1px solid #1E2947;display:flex;align-items:center;gap:10px;padding:0 14px;height:34px;position:relative;z-index:10}
 .ls{font-size:10px;color:#8894B4;display:flex;align-items:center;gap:5px;white-space:nowrap;cursor:pointer;opacity:.9;transition:opacity .15s}
 .ls.off{opacity:.28}
 .dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex-shrink:0}
-.leg-note{font-size:10px;color:#5A6680;margin-left:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-@media(max-width:899px){.leg-note{display:none}}
-.menu-wrap{position:relative;margin-left:auto;flex-shrink:0}
-.flt-wrap{position:relative;flex-shrink:0}
-.flt-btn{background:none;border:1px solid #26304F;border-radius:4px;color:#8894B4;font-family:Calibri,sans-serif;font-size:10px;padding:3px 10px;cursor:pointer;letter-spacing:.08em;white-space:nowrap;transition:border-color .14s,color .14s}
-.flt-btn:hover,.flt-btn.open{border-color:#C8952B;color:#C8952B}
-.flt-btn.ativo{border-color:#0F766E;color:#0F766E}
-.flt-btn.ativo:hover,.flt-btn.ativo.open{border-color:#C8952B;color:#C8952B}
-.flt-drop{display:none;position:absolute;bottom:calc(100% + 8px);left:0;min-width:200px;background:#141C36;border:1px solid #26304F;border-radius:8px;box-shadow:0 -4px 32px rgba(0,0,0,.6);z-index:9999;padding:6px 0;max-height:300px;overflow-y:auto}
-.flt-drop.open{display:block}
-.flt-head{font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:#C8952B;font-weight:700;padding:8px 14px 4px}
-.flt-item{display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;font-size:10.5px;color:#C4CDE4;transition:background .1s}
-.flt-item:hover{background:#1B2440}
-.flt-item.on{color:#E8ECF6}
-.flt-item .flt-dot{width:6px;height:6px;border-radius:50%;background:#26304F;flex-shrink:0;transition:background .14s}
-.flt-item.on .flt-dot{background:#C8952B}
-.flt-item .flt-chk{width:10px;height:10px;border:1px solid #3A4F78;border-radius:2px;flex-shrink:0;font-size:8px;color:transparent;transition:all .12s;display:inline-block;text-align:center;line-height:10px}
-.flt-item.on .flt-chk{background:#C8952B;border-color:#C8952B;color:#fff}
-.ord-wrap{position:relative;flex-shrink:0}
-.ord-btn{background:none;border:1px solid #26304F;border-radius:4px;color:#8894B4;font-family:Calibri,sans-serif;font-size:10px;padding:3px 11px;cursor:pointer;letter-spacing:.08em;white-space:nowrap;transition:border-color .14s,color .14s}
-.ord-btn:hover,.ord-btn.open{border-color:#C8952B;color:#C8952B}
-.ord-dropdown{display:none;position:absolute;bottom:calc(100% + 8px);left:0;min-width:250px;max-height:60vh;overflow-y:auto;background:#141C36;border:1px solid #26304F;border-radius:8px;box-shadow:0 -4px 32px rgba(0,0,0,.6);z-index:9999;padding:6px 0}
-.ord-dropdown.open{display:block}
+.leg-note{font-size:10px;color:#5A6680;line-height:1.5}
+.mb-toggle{display:none;background:none;border:1px solid #26304F;border-radius:4px;color:#8894B4;font-family:Calibri,sans-serif;font-size:10px;padding:3px 10px;cursor:pointer;letter-spacing:.05em;white-space:nowrap}
+.mb-toggle:hover{border-color:#C8952B;color:#C8952B}
+.body3{flex:1 1 auto;display:flex;min-height:0;overflow:hidden}
+.sidebar{flex-shrink:0;width:212px;overflow-y:auto;padding:4px 0 10px}
+.sidebar::-webkit-scrollbar{width:7px}
+.sidebar::-webkit-scrollbar-thumb{background:#26304F;border-radius:4px}
+.sidebar-left{border-right:1px solid #1E2947}
+.sidebar-right{width:250px;border-left:1px solid #1E2947;display:flex;flex-direction:column}
+.sb-section+.sb-section{border-top:1px solid #1E2947;margin-top:6px;padding-top:2px}
+.sb-h-row{display:flex;align-items:center;gap:6px;padding:10px 10px 2px 14px}
+.sb-h{font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:#C8952B;font-weight:700}
+.sb-clear{margin-left:auto;flex-shrink:0;background:none;border:1px solid #26304F;border-radius:4px;color:#8894B4;font-family:Calibri,sans-serif;font-size:9px;padding:2px 8px;cursor:pointer;letter-spacing:.03em;white-space:nowrap}
+.sb-clear:hover{border-color:#C8952B;color:#C8952B}
+.sb-close{display:none}
+.pin-list{flex:1 1 auto;overflow-y:auto;padding:6px 10px}
+.pin-list::-webkit-scrollbar{width:7px}
+.pin-list::-webkit-scrollbar-thumb{background:#26304F;border-radius:4px}
+.pin-empty{font-size:10.5px;color:#5A6680;padding:10px 4px;line-height:1.5}
+.pin-card{position:relative;background:#141C36;border:1px solid #26304F;border-top:3px solid #C8952B;border-radius:8px;padding:12px 13px 12px 15px;margin-bottom:9px;cursor:pointer;transition:border-color .12s}
+.pin-card:hover{border-color:#C8952B}
+.pin-num{position:absolute;top:-8px;left:-8px;width:19px;height:19px;border-radius:50%;background:#C8952B;color:#0E1428;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:Calibri,sans-serif}
+.ord-dropdown{padding:2px 0 4px}
 .ord-head{font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:#C8952B;font-weight:700;padding:8px 14px 4px}
 .ord-head-toggle{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none;transition:background .1s}
 .ord-head-toggle:hover{background:#1B2440}
@@ -96,27 +95,31 @@ svg{display:block;width:100%;height:100%}
 .ord-item.on .ord-dot{background:var(--grp-color,#C8952B)}
 .ord-item .ord-label{font-size:10.5px;color:#C4CDE4;line-height:1.35}
 .ord-item .ord-sub{font-size:9px;color:#5A6680;margin-top:1px}
-.menu-btn{background:none;border:1px solid #26304F;border-radius:4px;color:#8894B4;font-family:Calibri,sans-serif;font-size:10px;padding:3px 10px;cursor:pointer;letter-spacing:.08em}
-.menu-btn:hover,.menu-btn.open{border-color:#C8952B;color:#C8952B}
-.menu-dropdown{display:none;position:absolute;bottom:calc(100% + 8px);right:0;width:480px;max-width:calc(100vw - 20px);max-height:70vh;overflow-y:auto;background:#141C36;border:1px solid #26304F;border-radius:8px;box-shadow:0 -4px 32px rgba(0,0,0,.6);z-index:9999}
-.menu-dropdown.open{display:block}
+.menu-dropdown{padding-bottom:4px}
 .menu-section{padding:13px 15px;border-bottom:1px solid #1E2947}
 .menu-section:last-child{border-bottom:none}
 .menu-section h4{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#C8952B;font-weight:700;margin-bottom:7px}
 .menu-section p{font-size:11.5px;color:#C4CDE4;line-height:1.55}
 .tip{position:fixed;z-index:99;background:#141C36;border:1px solid #26304F;border-top:3px solid #C8952B;border-radius:8px;padding:13px 15px;width:300px;max-width:calc(100vw - 24px);pointer-events:none;opacity:0;transition:opacity .12s}
 .tip.on{opacity:1}
-.tip.pin,.tip.nav-pin{border-top-width:3px;box-shadow:0 6px 28px rgba(0,0,0,.55)}
+.tip.nav-pin{border-top-width:3px;box-shadow:0 6px 28px rgba(0,0,0,.55)}
 .tip-k{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#C8952B;font-weight:700}
 .tip-t{font-size:13px;font-weight:700;color:#E8ECF6;margin-top:5px;line-height:1.3;font-family:Cambria,Georgia,serif}
 .tip-v{font-size:22px;font-weight:700;margin-top:7px;line-height:1;font-family:Cambria,Georgia,serif}
 .tip-s{font-size:11px;color:#8894B4;margin-top:3px}
 .tip-d{font-size:11.5px;color:#C4CDE4;margin-top:9px;padding-top:9px;border-top:1px dashed #26304F;line-height:1.5}
+@media(max-width:899px){
+  .mb-toggle{display:inline-flex;align-items:center;gap:4px}
+  .sidebar{display:none;position:fixed;inset:0;z-index:9998;width:auto;max-width:none;background:#0E1428;padding:14px 0 24px}
+  .sidebar.open{display:block}
+  .sidebar-left,.sidebar-right{border:none}
+  .sb-close{display:flex;align-items:center;justify-content:center;position:sticky;top:0;margin:0 14px 8px auto;background:#141C36;border:1px solid #26304F;border-radius:6px;color:#8894B4;font-size:15px;width:34px;height:34px;cursor:pointer}
+}
 @media(max-width:560px){
-  .footer{overflow-x:auto;-webkit-overflow-scrolling:touch;gap:8px}
-  .footer::-webkit-scrollbar{height:3px}
-  .ord-btn,.menu-btn{padding:6px 11px;font-size:11px}
+  .modes{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .modes::-webkit-scrollbar{display:none}
   .ls{font-size:10.5px}
+  .mb-toggle{padding:5px 9px;font-size:10.5px}
 }
 .landscape-hint{display:none;position:fixed;inset:0;z-index:99999;background:#0E1428;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px 24px;gap:6px}
 .landscape-hint .lh-icon{font-size:42px;line-height:1;animation:lhRotate 1.8s ease-in-out infinite}
@@ -143,43 +146,57 @@ svg{display:block;width:100%;height:100%}
     <span class="hr">02/08/2026 (domingo) até 12/09/2026 (sábado)</span>
   </div>
   <div class="modes">
+    <span class="ls" data-f="mi"><i class="dot" style="background:#00E5FF"></i>milhões</span>
+    <span class="ls" data-f="bi"><i class="dot" style="background:#39FF14"></i>bilhões</span>
+    <span class="ls" data-f="tri"><i class="dot" style="background:#FFD600"></i>trilhões</span>
+    <button class="mb-toggle" id="mbLeft" type="button">Referências / dados</button>
+    <button class="mb-toggle" id="mbRight" type="button">Comparação<span id="mbRightCount"></span></button>
     <span class="mcount" id="mcount"></span>
   </div>
-  <div class="stage" id="stage"><div class="ref-captions" id="refCaptions"></div></div>
+  <div class="body3">
+    <aside class="sidebar sidebar-left" id="sidebarLeft">
+      <button class="sb-close" id="sbLeftClose" type="button" aria-label="Fechar">✕</button>
+      <div class="sb-section">
+        <div class="sb-h-row"><span class="sb-h">Referências</span><button class="sb-clear" id="yClearAll" type="button" hidden>limpar todas</button></div>
+        <div id="yDropdown" class="ord-dropdown"></div>
+      </div>
+      <div class="sb-section">
+        <div class="sb-h-row"><span class="sb-h">Dados / metodologia</span></div>
+        <div class="menu-dropdown" id="menuDropdown">
+          <div class="menu-section">
+            <h4>Por que uma grade em vez de treemap ou curva</h4>
+            <p>No treemap, cada fato vira uma área, e áreas competem por espaço: para caber tudo numa tela, o tamanho precisa ser distorcido e a posição não significa nada. Aqui cada fato é um <strong style="color:#E8ECF6">quadrado do mesmo tamanho</strong> — o valor não é codificado por área nem por posição num eixo contínuo, só pela cor (milhões / bilhões / trilhões). Isso evita sugerir uma tendência ou correlação que não existe. O número dentro de cada quadrado é o próprio valor do fato, arredondado, na unidade da faixa em que está — por exemplo, R$ 1,36 milhão aparece como "1" na faixa milhões, e R$ 5,89 bilhões aparece como "6" na faixa bilhões.</p>
+            <p style="margin-top:8px">Dentro de cada faixa, os quadrados seguem a ordem de leitura — esquerda → direita, voltando para a esquerda na linha de baixo — do menor para o maior valor. As três faixas aparecem em blocos separados por um espaço visível (a quebra na grade), não por um degradê de cor.</p>
+          </div>
+          <div class="menu-section">
+            <h4>Marcar uma referência</h4>
+            <p>Na seção <strong style="color:#E8ECF6">Referências</strong> (ao lado) abra uma categoria e escolha um item: os quadrados cujo valor cai dentro de uma <strong style="color:#E8ECF6">janela de ±5% do valor de referência</strong> ficam <strong style="color:#E8ECF6">brancos</strong>, mantendo o número visível por cima. Uma legenda no topo da grade mostra o valor de referência, a regra (±5%) e quantos fatos entraram na janela. Pode marcar itens de várias categorias ao mesmo tempo; clique de novo no item para remover, ou use "limpar todas".</p>
+            <p style="margin-top:8px">Categorias disponíveis: <strong style="color:#06B6D4">PIB nominal — G20</strong>, <strong style="color:#6366F1">Orçamento Federal — LOA 2026</strong>, <strong style="color:#A78BFA">Estados — orçamento por porte</strong>, <strong style="color:#F2A0A0">Municípios — orçamento por porte</strong> e <strong style="color:#A9DBB4">Investimento público</strong> (infraestrutura, saúde, educação e segurança). Valores de estados/municípios vêm das respectivas LOAs 2026; segurança pública nacional, do Anuário Brasileiro de Segurança Pública 2025; Novo PAC, dos balanços oficiais do programa.</p>
+          </div>
+          <div class="menu-section">
+            <h4>Comparar até 5 fatos</h4>
+            <p>Passe o mouse sobre um quadrado para ver o valor. <strong style="color:#E8ECF6">Clique</strong> para fixá-lo na coluna "Comparação" (à direita) — até 5 ao mesmo tempo; um sexto clique solta o mais antigo. O maior valor fixado mostra quantas vezes é maior que os demais. Clique num cartão da coluna para soltar aquele fato, ou em "tirar todos" para soltar todos de uma vez. Duplo clique num quadrado abre a matéria.</p>
+          </div>
+          <div class="menu-section">
+            <h4>Período e câmbio</h4>
+            <p>Período da coleta: 02/08/2026 (domingo) até 12/09/2026 (sábado)</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <div class="stage" id="stage"><div class="ref-captions" id="refCaptions"></div></div>
+    <aside class="sidebar sidebar-right" id="sidebarRight">
+      <button class="sb-close" id="sbRightClose" type="button" aria-label="Fechar">✕</button>
+      <div class="sb-h-row"><span class="sb-h">Comparação</span><button class="sb-clear" id="pinClearAll" type="button" hidden>tirar todos</button></div>
+      <div class="leg-note" style="padding:2px 14px 8px">clique num quadrado para fixar (até 5) · clique no cartão para soltar</div>
+      <div id="pinList" class="pin-list"></div>
+    </aside>
+  </div>
   <div class="navbar" id="navBar" hidden>
     <button class="nav-btn" id="navPrev" type="button" aria-label="Fato anterior">◀</button>
     <div class="nav-pos" id="navInfo"></div>
     <button class="nav-btn" id="navNext" type="button" aria-label="Próximo fato">▶</button>
     <button class="nav-x" id="navClose" type="button" aria-label="Fechar navegação">✕</button>
-  </div>
-  <div class="footer">
-    <span class="ls" data-f="mi"><i class="dot" style="background:#00E5FF"></i>milhões</span>
-    <span class="ls" data-f="bi"><i class="dot" style="background:#39FF14"></i>bilhões</span>
-    <span class="ls" data-f="tri"><i class="dot" style="background:#FFD600"></i>trilhões</span>
-    <div id="swarmMenus" style="display:flex;gap:6px;align-items:center"><div class="ord-wrap" id="yWrap"><button class="ord-btn" id="yBtn">Referências ▾</button><div class="ord-dropdown" id="yDropdown"></div></div><span class="leg-note" id="legNote">passe o mouse para ver o valor · clique para fixar (até 2, para comparar) · duplo clique abre a matéria · Esc ou clique fora solta</span>
-    <div class="menu-wrap">
-      <button class="menu-btn" id="menuBtn">dados</button>
-      <div class="menu-dropdown" id="menuDropdown">
-        <div class="menu-section">
-          <h4>Por que uma grade em vez de treemap ou curva</h4>
-          <p>No treemap, cada fato vira uma área, e áreas competem por espaço: para caber tudo numa tela, o tamanho precisa ser distorcido e a posição não significa nada. Aqui cada fato é um <strong style="color:#E8ECF6">quadrado do mesmo tamanho</strong> — o valor não é codificado por área nem por posição num eixo contínuo, só pela cor (milhões / bilhões / trilhões). Isso evita sugerir uma tendência ou correlação que não existe. O número dentro de cada quadrado é o próprio valor do fato, arredondado, na unidade da faixa em que está — por exemplo, R$ 1,36 milhão aparece como "1" na faixa milhões, e R$ 5,89 bilhões aparece como "6" na faixa bilhões.</p>
-          <p style="margin-top:8px">Dentro de cada faixa, os quadrados seguem a ordem de leitura — esquerda → direita, voltando para a esquerda na linha de baixo — do menor para o maior valor. As três faixas aparecem em blocos separados por um espaço visível (a quebra na grade), não por um degradê de cor.</p>
-        </div>
-        <div class="menu-section">
-          <h4>Marcar uma referência</h4>
-          <p>No menu <strong style="color:#E8ECF6">Referências</strong> (rodapé) abra uma categoria e escolha um item: os quadrados cujo valor cai dentro de uma <strong style="color:#E8ECF6">janela de ±5% do valor de referência</strong> ficam <strong style="color:#E8ECF6">brancos</strong>, mantendo o número visível por cima. Uma legenda no topo da grade mostra o valor de referência, a regra (±5%) e quantos fatos entraram na janela. Pode marcar itens de várias categorias ao mesmo tempo; clique de novo no item para remover.</p>
-          <p style="margin-top:8px">Categorias disponíveis: <strong style="color:#06B6D4">PIB nominal — G20</strong>, <strong style="color:#6366F1">Orçamento Federal — LOA 2026</strong>, <strong style="color:#A78BFA">Estados — orçamento por porte</strong>, <strong style="color:#F2A0A0">Municípios — orçamento por porte</strong> e <strong style="color:#A9DBB4">Investimento público</strong> (infraestrutura, saúde, educação e segurança). Valores de estados/municípios vêm das respectivas LOAs 2026; segurança pública nacional, do Anuário Brasileiro de Segurança Pública 2025; Novo PAC, dos balanços oficiais do programa.</p>
-        </div>
-        <div class="menu-section">
-          <h4>Comparar dois fatos</h4>
-          <p>Passe o mouse sobre um ponto para ver o valor. <strong style="color:#E8ECF6">Clique</strong> para fixar o quadro; clique num segundo ponto para comparar os dois — o quadro do maior valor mostra quantas vezes ele é maior que o outro. Clique num ponto fixado para soltá-lo, ou em qualquer área vazia / Esc para soltar tudo.</p>
-        </div>
-        <div class="menu-section">
-          <h4>Período e câmbio</h4>
-          <p>Período da coleta: 02/08/2026 (domingo) até 12/09/2026 (sábado)</p>
-        </div>
-      </div>
-    </div>
   </div>
 </div></div>
 <div class="tip" id="tip"></div>
@@ -1052,8 +1069,9 @@ function moveTip(e){const vw=innerWidth,vh=innerHeight,tw=Math.min(300,vw-24),th
   tip.style.left=lx+'px';tip.style.top=ly+'px';}
 function hideTip(){tip.classList.remove('on');}
 
-/* ---------- tooltips fixados (clique) — até 2, para comparação ---------- */
-let locked=[]; // {c,r,d,x,y,el}
+/* ---------- fatos fixados (clique) — até 5, exibidos na coluna de comparação ---------- */
+const MAX_LOCK=5;
+let locked=[]; // {c,r,d,corBase}
 function posicionaFixo(elx,x,y){
   const vw=innerWidth,vh=innerHeight,tw=Math.min(300,vw-24);
   elx.style.left='-9999px';elx.style.top='-9999px';
@@ -1064,27 +1082,38 @@ function posicionaFixo(elx,x,y){
   if(ly+th>vh)ly=y-th-15;if(ly<8)ly=8;
   elx.style.left=lx+'px';elx.style.top=ly+'px';
 }
+const pinList=document.getElementById('pinList'),pinClearAll=document.getElementById('pinClearAll'),mbRightCount=document.getElementById('mbRightCount');
 function renderLocked(){
-  document.querySelectorAll('.tip.pin').forEach(n=>n.remove());
-  if(locked.length===2){
-    const[A,B]=locked;
-    const maior=A.d.v>=B.d.v?A:B,menor=maior===A?B:A;
-    const razao=maior.d.v/menor.d.v;
-    const razaoTxt=(razao>=10?Math.round(razao):razao.toFixed(1).replace('.',','))+'× maior que “'+menor.d.t.slice(0,60)+(menor.d.t.length>60?'…':'')+'”';
-    locked.forEach(L=>{
-      const elx=document.createElement('div');
-      elx.className='tip on pin';
-      elx.innerHTML=tipHTML(L.d,{pin:true,comparativo:L===maior?razaoTxt:null});
-      L.el=elx;posicionaFixo(elx,L.x,L.y);
-    });
+  if(!pinList)return;
+  if(!locked.length){
+    pinList.innerHTML='<div class="pin-empty">Nenhum fato fixado. Clique num quadrado da grade para fixá-lo aqui (até 5, para comparar).</div>';
   } else {
-    locked.forEach(L=>{
-      const elx=document.createElement('div');
-      elx.className='tip on pin';
-      elx.innerHTML=tipHTML(L.d,{pin:true});
-      L.el=elx;posicionaFixo(elx,L.x,L.y);
+    const maior=locked.reduce((m,L)=>L.d.v>m.d.v?L:m,locked[0]);
+    pinList.innerHTML=locked.map((L,i)=>{
+      let comparativo=null;
+      if(locked.length>1&&L!==maior){
+        const razao=maior.d.v/L.d.v;
+        comparativo=(razao>=10?Math.round(razao):razao.toFixed(1).replace('.',','))+'× maior que este';
+      } else if(locked.length>1&&L===maior){
+        comparativo='maior valor fixado';
+      }
+      return '<div class="pin-card" data-i="'+i+'"><span class="pin-num">'+(i+1)+'</span>'+tipHTML(L.d,{pin:true,comparativo})+'</div>';
+    }).join('');
+    pinList.querySelectorAll('.pin-card').forEach(card=>{
+      card.addEventListener('click',()=>{
+        const L=locked[+card.dataset.i];
+        if(L)desafixar(L);
+      });
     });
   }
+  if(pinClearAll)pinClearAll.hidden=!locked.length;
+  if(mbRightCount)mbRightCount.textContent=locked.length?' ('+locked.length+')':'';
+}
+function desafixar(L){
+  pintaFixo(L.c,L.r,false,L.d,L.corBase);
+  locked=locked.filter(x=>x!==L);
+  hideTip();
+  renderLocked();
 }
 
 /* ---------- beeswarm: empacota pontos sem sobreposição ---------- */
@@ -1129,9 +1158,10 @@ function pintaFixo(c,s,on,d,corBase){
   c.setAttribute('stroke-width',on?2.5:1);
 }
 function soltar(){
-  locked.forEach(L=>{pintaFixo(L.c,L.r,false,L.d,L.corBase);if(L.el)L.el.remove();});
+  locked.forEach(L=>{pintaFixo(L.c,L.r,false,L.d,L.corBase);});
   locked=[];
   hideTip();
+  renderLocked();
 }
 function toggleLock(d,c,s,e,corBase){
   const idx=locked.findIndex(L=>L.c===c);
@@ -1139,12 +1169,12 @@ function toggleLock(d,c,s,e,corBase){
     pintaFixo(c,s,false,d,corBase);
     locked.splice(idx,1);
   } else {
-    if(locked.length>=2){
-      locked.forEach(L=>{pintaFixo(L.c,L.r,false,L.d,L.corBase);if(L.el)L.el.remove();});
-      locked=[];
+    if(locked.length>=MAX_LOCK){
+      const antigo=locked.shift();
+      pintaFixo(antigo.c,antigo.r,false,antigo.d,antigo.corBase);
     }
     pintaFixo(c,s,true,d,corBase);
-    locked.push({c,r:s,d,x:e.clientX,y:e.clientY,corBase});
+    locked.push({c,r:s,d,corBase});
   }
   hideTip();
   renderLocked();
@@ -1192,8 +1222,7 @@ function numLabel(x,y,s,num){
 const refCaptions=document.getElementById('refCaptions');
 
 function render(){
-  locked.forEach(L=>{if(L.el)L.el.remove();});
-  locked=[];hideTip();
+  locked=[];hideTip();renderLocked();
   if(navTipEl){navTipEl.remove();navTipEl=null;}
   const oldSvg=stage.querySelector('svg');if(oldSvg)oldSvg.remove();
   if(refCaptions)refCaptions.innerHTML='';
@@ -1293,7 +1322,7 @@ document.querySelectorAll('.ls').forEach(l=>l.addEventListener('click',()=>{
   document.querySelectorAll('.ls').forEach(x=>x.classList.toggle('off', faixaIsolada && x.dataset.f!==faixaIsolada));
   hideTip();render();
 }));
-const yBtn=document.getElementById('yBtn'),yDropdown=document.getElementById('yDropdown');
+const yDropdown=document.getElementById('yDropdown'),yClearAll=document.getElementById('yClearAll');
 const Y_FLAT=[];
 let yHtml='<div class="ord-rule-note">quadrado branco = fato entre ±'+Math.round(REF_TOL*100)+'% do valor de referência</div>';
 Y_OPCOES.forEach((grupo,gi)=>{
@@ -1308,37 +1337,47 @@ Y_OPCOES.forEach((grupo,gi)=>{
   yHtml+='</div>';
 });
 yDropdown.innerHTML=yHtml;
-if(yBtn){
-  yBtn.addEventListener('click',e=>{e.stopPropagation();yDropdown.classList.toggle('open');yBtn.classList.toggle('open');});
-  yDropdown.addEventListener('click',e=>e.stopPropagation());
-  document.querySelectorAll('#yDropdown .ord-head-toggle').forEach(head=>{
-    head.addEventListener('click',()=>{
-      const grp=document.querySelector('#yDropdown .ord-group[data-grp="'+head.dataset.grp+'"]');
-      const abrindo=!head.classList.contains('open');
-      head.classList.toggle('open',abrindo);
-      if(grp)grp.classList.toggle('open',abrindo);
-    });
+function atualizaYClearAll(){if(yClearAll)yClearAll.hidden=!marcasAtivas.length;}
+atualizaYClearAll();
+document.querySelectorAll('#yDropdown .ord-head-toggle').forEach(head=>{
+  head.addEventListener('click',()=>{
+    const grp=document.querySelector('#yDropdown .ord-group[data-grp="'+head.dataset.grp+'"]');
+    const abrindo=!head.classList.contains('open');
+    head.classList.toggle('open',abrindo);
+    if(grp)grp.classList.toggle('open',abrindo);
   });
-  document.querySelectorAll('#yDropdown .ord-item').forEach(item=>{
-    item.addEventListener('click',e=>{
-      e.stopPropagation();
-      const alvo=Y_FLAT[+item.dataset.idx];
-      const idxAtiva=marcasAtivas.indexOf(alvo);
-      if(idxAtiva>=0){marcasAtivas.splice(idxAtiva,1);item.classList.remove('on');}
-      else{marcasAtivas.push(alvo);item.classList.add('on');}
-      hideTip();render();
-    });
+});
+document.querySelectorAll('#yDropdown .ord-item').forEach(item=>{
+  item.addEventListener('click',e=>{
+    e.stopPropagation();
+    const alvo=Y_FLAT[+item.dataset.idx];
+    const idxAtiva=marcasAtivas.indexOf(alvo);
+    if(idxAtiva>=0){marcasAtivas.splice(idxAtiva,1);item.classList.remove('on');}
+    else{marcasAtivas.push(alvo);item.classList.add('on');}
+    atualizaYClearAll();
+    hideTip();render();
   });
-}
+});
+if(yClearAll)yClearAll.addEventListener('click',e=>{
+  e.stopPropagation();
+  marcasAtivas=[];
+  document.querySelectorAll('#yDropdown .ord-item.on').forEach(item=>item.classList.remove('on'));
+  atualizaYClearAll();
+  hideTip();render();
+});
 const lhDismiss=document.getElementById('lhDismiss'),landscapeHint=document.getElementById('landscapeHint');
 if(lhDismiss)lhDismiss.addEventListener('click',e=>{e.stopPropagation();if(landscapeHint)landscapeHint.classList.add('lh-dismissed');});
-const menuBtn=document.getElementById('menuBtn'),menuDropdown=document.getElementById('menuDropdown');
-menuBtn.addEventListener('click',e=>{e.stopPropagation();const o=menuDropdown.classList.toggle('open');menuBtn.classList.toggle('open',o);});
-menuDropdown.addEventListener('click',e=>e.stopPropagation());
+if(pinClearAll)pinClearAll.addEventListener('click',e=>{e.stopPropagation();soltar();});
+/* ---------- painéis laterais no mobile: abrem como overlay de tela cheia ---------- */
+const sidebarLeft=document.getElementById('sidebarLeft'),sidebarRight=document.getElementById('sidebarRight');
+const mbLeft=document.getElementById('mbLeft'),mbRight=document.getElementById('mbRight');
+const sbLeftClose=document.getElementById('sbLeftClose'),sbRightClose=document.getElementById('sbRightClose');
+if(mbLeft&&sidebarLeft)mbLeft.addEventListener('click',e=>{e.stopPropagation();sidebarLeft.classList.add('open');});
+if(mbRight&&sidebarRight)mbRight.addEventListener('click',e=>{e.stopPropagation();sidebarRight.classList.add('open');});
+if(sbLeftClose&&sidebarLeft)sbLeftClose.addEventListener('click',e=>{e.stopPropagation();sidebarLeft.classList.remove('open');});
+if(sbRightClose&&sidebarRight)sbRightClose.addEventListener('click',e=>{e.stopPropagation();sidebarRight.classList.remove('open');});
 document.addEventListener('click',e=>{
-  menuDropdown.classList.remove('open');menuBtn.classList.remove('open');
-  if(yDropdown){yDropdown.classList.remove('open');yBtn.classList.remove('open');}
-  if(!e.target.closest('.pt')&&!e.target.closest('.tip.pin'))soltar();
+  if(!e.target.closest('.pt')&&!e.target.closest('.sidebar'))soltar();
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){soltar();navHide();}});
 
