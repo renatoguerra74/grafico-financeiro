@@ -72,16 +72,11 @@ svg{display:block;width:100%;height:100%}
 .sb-clear{margin-left:auto;flex-shrink:0;background:none;border:1px solid #26304F;border-radius:4px;color:#8894B4;font-family:Calibri,sans-serif;font-size:9px;padding:2px 8px;cursor:pointer;letter-spacing:.03em;white-space:nowrap}
 .sb-clear:hover{border-color:#C8952B;color:#C8952B}
 .sb-close{display:none}
-.pin-list{--pin-scale:1;flex:1 1 auto;overflow-y:auto;padding:6px 10px}
+.pin-list{flex:1 1 auto;overflow-y:auto;padding:6px 10px}
 .pin-list::-webkit-scrollbar{width:7px}
 .pin-list::-webkit-scrollbar-thumb{background:#26304F;border-radius:4px}
 .pin-empty{font-size:10.5px;color:#5A6680;padding:10px 4px;line-height:1.5}
-.pin-card{position:relative;background:#141C36;border:1px solid #26304F;border-top:3px solid #C8952B;border-radius:8px;padding:calc(12px*var(--pin-scale)) calc(13px*var(--pin-scale)) calc(12px*var(--pin-scale)) calc(15px*var(--pin-scale));margin-bottom:calc(9px*var(--pin-scale));cursor:pointer;transition:border-color .12s}
-.pin-card .tip-k{font-size:calc(9px*var(--pin-scale))}
-.pin-card .tip-t{font-size:calc(13px*var(--pin-scale));margin-top:calc(5px*var(--pin-scale))}
-.pin-card .tip-v{font-size:calc(22px*var(--pin-scale));margin-top:calc(7px*var(--pin-scale))}
-.pin-card .tip-s{font-size:calc(11px*var(--pin-scale));margin-top:calc(3px*var(--pin-scale))}
-.pin-card .tip-d{font-size:calc(11.5px*var(--pin-scale));margin-top:calc(9px*var(--pin-scale));padding-top:calc(9px*var(--pin-scale))}
+.pin-card{position:relative;background:#141C36;border:1px solid #26304F;border-top:3px solid #C8952B;border-radius:8px;padding:12px 13px 12px 15px;margin-bottom:9px;cursor:pointer;transition:border-color .12s}
 .pin-card:hover{border-color:#C8952B}
 .pin-num{position:absolute;top:-8px;left:-8px;width:19px;height:19px;border-radius:50%;background:#C8952B;color:#0E1428;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:Calibri,sans-serif}
 .ord-dropdown{padding:2px 0 4px}
@@ -179,8 +174,8 @@ svg{display:block;width:100%;height:100%}
             <p style="margin-top:8px">O marcador ao lado de cada referência usa a mesma cor da faixa de grandeza a que ela pertence (milhões/bilhões/trilhões), não uma cor por categoria. Categorias disponíveis: <strong style="color:#E8ECF6">PIB nominal — G20</strong>, <strong style="color:#E8ECF6">Orçamento Federal — LOA 2026</strong>, <strong style="color:#E8ECF6">Estados — orçamento por porte</strong>, <strong style="color:#E8ECF6">Municípios — orçamento por porte</strong> e <strong style="color:#E8ECF6">Investimento público</strong> (infraestrutura, saúde, educação e segurança). Valores de estados/municípios vêm das respectivas LOAs 2026; segurança pública nacional, do Anuário Brasileiro de Segurança Pública 2025; Novo PAC, dos balanços oficiais do programa.</p>
           </div>
           <div class="menu-section">
-            <h4>Comparar até 5 fatos</h4>
-            <p>Passe o mouse sobre um quadrado para ver o valor. <strong style="color:#E8ECF6">Clique</strong> para fixá-lo na coluna "Comparação" (à direita) — até 5 ao mesmo tempo; um sexto clique solta o mais antigo. O maior valor fixado mostra quantas vezes é maior que os demais. Clique num cartão da coluna para soltar aquele fato, ou em "tirar todos" para soltar todos de uma vez. Duplo clique num quadrado abre a matéria.</p>
+            <h4>Comparar dois fatos</h4>
+            <p>Passe o mouse sobre um quadrado para ver o valor. <strong style="color:#E8ECF6">Clique</strong> para fixá-lo na coluna "Comparação" (à direita) — até 2 ao mesmo tempo; um terceiro clique solta o mais antigo. Com os dois fixados, cada cartão mostra quantas vezes é maior ou menor que o outro. Clique num cartão da coluna para soltar aquele fato, ou em "tirar todos" para soltar os dois de uma vez. Duplo clique num quadrado abre a matéria.</p>
           </div>
           <div class="menu-section">
             <h4>Período e câmbio</h4>
@@ -193,7 +188,7 @@ svg{display:block;width:100%;height:100%}
     <aside class="sidebar sidebar-right" id="sidebarRight">
       <button class="sb-close" id="sbRightClose" type="button" aria-label="Fechar">✕</button>
       <div class="sb-h-row"><span class="sb-h">Comparação</span><button class="sb-clear" id="pinClearAll" type="button" hidden>tirar todos</button></div>
-      <div class="leg-note" style="padding:2px 14px 8px">clique num quadrado para fixar (até 5) · clique no cartão para soltar</div>
+      <div class="leg-note" style="padding:2px 14px 8px">clique num quadrado para fixar (até 2) · clique no cartão para soltar</div>
       <div id="pinList" class="pin-list"></div>
     </aside>
   </div>
@@ -1058,8 +1053,8 @@ function tipHTML(d,opts){
     +'<div class="tip-v" style="color:'+tipCor(d.v)+'">'+fmt_tip(d.v)+'</div>'
     +'<div class="tip-s">'+d.src+' · '+d.d+' · '+d.p+'</div>'
     +(opts.comparativo?'<div style="font-size:11.5px;color:#C8952B;margin-top:6px;padding-top:6px;border-top:1px dashed #26304F;font-weight:700">'+opts.comparativo+'</div>':'')
-    +(d.desc&&!opts.compact?'<div class="tip-d">'+d.desc+'</div>':'')
-    +(d.url&&!opts.compact?'<div style="font-size:10px;color:#C8952B;margin-top:8px;padding-top:7px;border-top:1px dashed #26304F">'+(opts.pin?'↗ duplo clique para abrir a matéria':'clique para fixar · duplo clique para abrir')+'</div>':'');
+    +(d.desc?'<div class="tip-d">'+d.desc+'</div>':'')
+    +(d.url?'<div style="font-size:10px;color:#C8952B;margin-top:8px;padding-top:7px;border-top:1px dashed #26304F">'+(opts.pin?'↗ duplo clique para abrir a matéria':'clique para fixar · duplo clique para abrir')+'</div>':'');
 }
 function showTip(d,e){
   tip.innerHTML=tipHTML(d,{});
@@ -1074,8 +1069,8 @@ function moveTip(e){const vw=innerWidth,vh=innerHeight,tw=Math.min(300,vw-24),th
   tip.style.left=lx+'px';tip.style.top=ly+'px';}
 function hideTip(){tip.classList.remove('on');}
 
-/* ---------- fatos fixados (clique) — até 5, exibidos na coluna de comparação ---------- */
-const MAX_LOCK=5;
+/* ---------- fatos fixados (clique) — até 2, exibidos na coluna de comparação ---------- */
+const MAX_LOCK=2;
 let locked=[]; // {c,r,d,corBase}
 function posicionaFixo(elx,x,y){
   const vw=innerWidth,vh=innerHeight,tw=Math.min(300,vw-24);
@@ -1090,34 +1085,25 @@ function posicionaFixo(elx,x,y){
 const pinList=document.getElementById('pinList'),pinClearAll=document.getElementById('pinClearAll'),mbRightCount=document.getElementById('mbRightCount');
 function renderLocked(){
   if(!pinList)return;
-  pinList.style.setProperty('--pin-scale','1');
   if(!locked.length){
-    pinList.innerHTML='<div class="pin-empty">Nenhum fato fixado. Clique num quadrado da grade para fixá-lo aqui (até 5, para comparar).</div>';
+    pinList.innerHTML='<div class="pin-empty">Nenhum fato fixado. Clique num quadrado da grade para fixá-lo aqui (até 2, para comparar).</div>';
   } else {
-    const maior=locked.reduce((m,L)=>L.d.v>m.d.v?L:m,locked[0]);
-    const compact=locked.length>=4; // com muitos fixados, omite a descrição para caber sem scroll
-    pinList.innerHTML=locked.map((L,i)=>{
-      let comparativo=null;
-      if(locked.length>1&&L!==maior){
-        const razao=maior.d.v/L.d.v;
-        comparativo=(razao>=10?Math.round(razao):razao.toFixed(1).replace('.',','))+'× maior que este';
-      } else if(locked.length>1&&L===maior){
-        comparativo='maior valor fixado';
-      }
-      return '<div class="pin-card" data-i="'+i+'"><span class="pin-num">'+(i+1)+'</span>'+tipHTML(L.d,{pin:true,comparativo,compact})+'</div>';
-    }).join('');
+    let comparativos=locked.map(()=>null);
+    if(locked.length===2){
+      const[A,B]=locked;
+      const maiorIdx=A.d.v>=B.d.v?0:1,menorIdx=maiorIdx===0?1:0;
+      const razao=locked[maiorIdx].d.v/locked[menorIdx].d.v;
+      const razaoTxt=(razao>=10?Math.round(razao):razao.toFixed(1).replace('.',','))+'×';
+      comparativos[maiorIdx]='até '+razaoTxt+' maior que o outro fixado';
+      comparativos[menorIdx]='até '+razaoTxt+' menor que o outro fixado';
+    }
+    pinList.innerHTML=locked.map((L,i)=>'<div class="pin-card" data-i="'+i+'"><span class="pin-num">'+(i+1)+'</span>'+tipHTML(L.d,{pin:true,comparativo:comparativos[i]})+'</div>').join('');
     pinList.querySelectorAll('.pin-card').forEach(card=>{
       card.addEventListener('click',()=>{
         const L=locked[+card.dataset.i];
         if(L)desafixar(L);
       });
     });
-    // encolhe o texto até caber sem scroll na coluna
-    let scale=1;
-    while(pinList.scrollHeight>pinList.clientHeight+1&&scale>0.55){
-      scale=Math.max(0.55,scale-0.05);
-      pinList.style.setProperty('--pin-scale',String(scale));
-    }
   }
   if(pinClearAll)pinClearAll.hidden=!locked.length;
   if(mbRightCount)mbRightCount.textContent=locked.length?' ('+locked.length+')':'';
