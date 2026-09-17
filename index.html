@@ -38,7 +38,8 @@ svg{display:block;width:100%;height:100%}
 .pt.dim{opacity:.13}
 .guide{stroke:#C8952B;stroke-width:1;stroke-dasharray:3 3;opacity:0}
 .ref-captions{position:absolute;top:6px;left:10px;right:10px;pointer-events:none;z-index:2}
-.ref-cap{font-size:9.5px;line-height:1.5;font-family:Calibri,sans-serif;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ref-cap{font-size:9.5px;line-height:1.5;font-family:Calibri,sans-serif;font-weight:700;color:#E8ECF6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 1px 3px rgba(0,0,0,.7)}
+.ref-cap .ref-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;flex-shrink:0}
 .ord-rule-note{font-size:9px;color:#5A6680;padding:2px 14px 7px;line-height:1.4;border-bottom:1px solid #1E2947;margin-bottom:2px}
 .navbar{flex-shrink:0;border-top:1px solid #1E2947;background:#0F1830;display:flex;align-items:center;justify-content:center;gap:12px;padding:8px 10px;position:relative;z-index:10}
 .navbar[hidden]{display:none}
@@ -152,9 +153,9 @@ svg{display:block;width:100%;height:100%}
     <button class="nav-x" id="navClose" type="button" aria-label="Fechar navegação">✕</button>
   </div>
   <div class="footer">
-    <span class="ls" data-f="mi"><i class="dot" style="background:#F2A0A0"></i>milhões</span>
-    <span class="ls" data-f="bi"><i class="dot" style="background:#F5C58F"></i>bilhões</span>
-    <span class="ls" data-f="tri"><i class="dot" style="background:#A9DBB4"></i>trilhões</span>
+    <span class="ls" data-f="mi"><i class="dot" style="background:#6FA8DC"></i>milhões</span>
+    <span class="ls" data-f="bi"><i class="dot" style="background:#D9A94E"></i>bilhões</span>
+    <span class="ls" data-f="tri"><i class="dot" style="background:#E2725B"></i>trilhões</span>
     <div id="swarmMenus" style="display:flex;gap:6px;align-items:center"><div class="ord-wrap" id="yWrap"><button class="ord-btn" id="yBtn">Referências ▾</button><div class="ord-dropdown" id="yDropdown"></div></div><span class="leg-note" id="legNote">passe o mouse para ver o valor · clique para fixar (até 2, para comparar) · duplo clique abre a matéria · Esc ou clique fora solta</span>
     <div class="menu-wrap">
       <button class="menu-btn" id="menuBtn">dados</button>
@@ -185,9 +186,9 @@ svg{display:block;width:100%;height:100%}
 <script>
 const fmt_tip=v=>v>=1e12?'R$ '+(v/1e12).toFixed(2).replace('.',',')+' tri':v>=1e9?'R$ '+(v/1e9).toFixed(2).replace('.',',')+' bi':'R$ '+(v/1e6).toFixed(2).replace('.',',')+' mi';
 function faixa(v){return v>=1e12?'tri':v>=1e9?'bi':'mi';}
-const FCOR={mi:'#F2A0A0',bi:'#F5C58F',tri:'#A9DBB4'};
+const FCOR={mi:'#6FA8DC',bi:'#D9A94E',tri:'#E2725B'};
 const FNOME={mi:'milhões',bi:'bilhões',tri:'trilhões'};
-function tipCor(v){return v>=1e12?'#A9DBB4':v>=1e9?'#F5C58F':'#F2A0A0';}
+function tipCor(v){return v>=1e12?'#E2725B':v>=1e9?'#D9A94E':'#6FA8DC';}
 const REF_TOL=0.05; // janela de tolerância das referências: valor × [1-REF_TOL, 1+REF_TOL]
 function fmtPctVal(v){
   if(v>=10)return v.toFixed(1).replace('.',',')+'%';
@@ -1241,7 +1242,7 @@ function render(){
         qtd=gHi-gLo+1;
         for(let k=gLo;k<=gHi;k++)marcados.add(k);
       }
-      capHtml+='<div class="ref-cap" style="color:'+cor+'">'+mk.nome+' ('+fmt_tip(mk.valor)+', janela ±'+Math.round(REF_TOL*100)+'%): '+qtd+' fato'+(qtd===1?'':'s')+' entre '+fmt_tip(lo)+' e '+fmt_tip(hi)+'</div>';
+      capHtml+='<div class="ref-cap"><span class="ref-dot" style="background:'+cor+'"></span>'+mk.nome+' ('+fmt_tip(mk.valor)+', janela ±'+Math.round(REF_TOL*100)+'%): '+qtd+' fato'+(qtd===1?'':'s')+' entre '+fmt_tip(lo)+' e '+fmt_tip(hi)+'</div>';
     });
     if(refCaptions)refCaptions.innerHTML=capHtml;
 
