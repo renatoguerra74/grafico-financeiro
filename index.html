@@ -153,9 +153,9 @@ svg{display:block;width:100%;height:100%}
     <button class="nav-x" id="navClose" type="button" aria-label="Fechar navegação">✕</button>
   </div>
   <div class="footer">
-    <span class="ls" data-f="mi"><i class="dot" style="background:#9EC5F4"></i>milhões</span>
-    <span class="ls" data-f="bi"><i class="dot" style="background:#6DA7EC"></i>bilhões</span>
-    <span class="ls" data-f="tri"><i class="dot" style="background:#3987E5"></i>trilhões</span>
+    <span class="ls" data-f="mi"><i class="dot" style="background:#00E5FF"></i>milhões</span>
+    <span class="ls" data-f="bi"><i class="dot" style="background:#39FF14"></i>bilhões</span>
+    <span class="ls" data-f="tri"><i class="dot" style="background:#FFD600"></i>trilhões</span>
     <div id="swarmMenus" style="display:flex;gap:6px;align-items:center"><div class="ord-wrap" id="yWrap"><button class="ord-btn" id="yBtn">Referências ▾</button><div class="ord-dropdown" id="yDropdown"></div></div><span class="leg-note" id="legNote">passe o mouse para ver o valor · clique para fixar (até 2, para comparar) · duplo clique abre a matéria · Esc ou clique fora solta</span>
     <div class="menu-wrap">
       <button class="menu-btn" id="menuBtn">dados</button>
@@ -186,9 +186,9 @@ svg{display:block;width:100%;height:100%}
 <script>
 const fmt_tip=v=>v>=1e12?'R$ '+(v/1e12).toFixed(2).replace('.',',')+' tri':v>=1e9?'R$ '+(v/1e9).toFixed(2).replace('.',',')+' bi':'R$ '+(v/1e6).toFixed(2).replace('.',',')+' mi';
 function faixa(v){return v>=1e12?'tri':v>=1e9?'bi':'mi';}
-const FCOR={mi:'#9EC5F4',bi:'#6DA7EC',tri:'#3987E5'};
+const FCOR={mi:'#00E5FF',bi:'#39FF14',tri:'#FFD600'};
 const FNOME={mi:'milhões',bi:'bilhões',tri:'trilhões'};
-function tipCor(v){return v>=1e12?'#3987E5':v>=1e9?'#6DA7EC':'#9EC5F4';}
+function tipCor(v){return v>=1e12?'#FFD600':v>=1e9?'#39FF14':'#00E5FF';}
 const REF_TOL=0.05; // janela de tolerância das referências: valor × [1-REF_TOL, 1+REF_TOL]
 function fmtPctVal(v){
   if(v>=10)return v.toFixed(1).replace('.',',')+'%';
