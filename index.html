@@ -161,12 +161,12 @@ svg{display:block;width:100%;height:100%}
       <div class="menu-dropdown" id="menuDropdown">
         <div class="menu-section">
           <h4>Por que uma grade em vez de treemap ou curva</h4>
-          <p>No treemap, cada fato vira uma área, e áreas competem por espaço: para caber tudo numa tela, o tamanho precisa ser distorcido e a posição não significa nada. Aqui cada fato é um <strong style="color:#E8ECF6">quadrado do mesmo tamanho</strong> — o valor não é codificado por área nem por posição num eixo contínuo, só pela cor (milhões / bilhões / trilhões). Isso evita sugerir uma tendência ou correlação que não existe.</p>
+          <p>No treemap, cada fato vira uma área, e áreas competem por espaço: para caber tudo numa tela, o tamanho precisa ser distorcido e a posição não significa nada. Aqui cada fato é um <strong style="color:#E8ECF6">quadrado do mesmo tamanho</strong> — o valor não é codificado por área nem por posição num eixo contínuo, só pela cor (milhões / bilhões / trilhões). Isso evita sugerir uma tendência ou correlação que não existe. O número dentro de cada quadrado é a posição do fato no ranking geral, do menor para o maior valor — o mesmo número usado na navegação por setas.</p>
           <p style="margin-top:8px">Dentro de cada faixa, os quadrados seguem a ordem de leitura — esquerda → direita, voltando para a esquerda na linha de baixo — do menor para o maior valor. As três faixas aparecem em blocos separados por um espaço visível (a quebra na grade), não por um degradê de cor.</p>
         </div>
         <div class="menu-section">
           <h4>Marcar uma referência</h4>
-          <p>No menu <strong style="color:#E8ECF6">Referências</strong> (rodapé) abra uma categoria e escolha um item: os quadrados cujo valor cai dentro de uma <strong style="color:#E8ECF6">janela de ±20% do valor de referência</strong> ganham um <strong style="color:#E8ECF6">contorno</strong> na cor da categoria, mantendo a própria cor de faixa — sem recolorir o bloco. Uma legenda no topo da grade mostra o valor de referência, a regra (±20%) e quantos fatos entraram na janela. Pode marcar itens de várias categorias ao mesmo tempo; clique de novo no item para remover.</p>
+          <p>No menu <strong style="color:#E8ECF6">Referências</strong> (rodapé) abra uma categoria e escolha um item: os quadrados cujo valor cai dentro de uma <strong style="color:#E8ECF6">janela de ±5% do valor de referência</strong> ficam <strong style="color:#E8ECF6">brancos</strong>, mantendo o número visível por cima. Uma legenda no topo da grade mostra o valor de referência, a regra (±5%) e quantos fatos entraram na janela. Pode marcar itens de várias categorias ao mesmo tempo; clique de novo no item para remover.</p>
           <p style="margin-top:8px">Categorias disponíveis: <strong style="color:#06B6D4">PIB nominal — G20</strong>, <strong style="color:#6366F1">Orçamento Federal — LOA 2026</strong>, <strong style="color:#A78BFA">Estados — orçamento por porte</strong>, <strong style="color:#F2A0A0">Municípios — orçamento por porte</strong> e <strong style="color:#A9DBB4">Investimento público</strong> (infraestrutura, saúde, educação e segurança). Valores de estados/municípios vêm das respectivas LOAs 2026; segurança pública nacional, do Anuário Brasileiro de Segurança Pública 2025; Novo PAC, dos balanços oficiais do programa.</p>
         </div>
         <div class="menu-section">
@@ -188,7 +188,7 @@ function faixa(v){return v>=1e12?'tri':v>=1e9?'bi':'mi';}
 const FCOR={mi:'#F2A0A0',bi:'#F5C58F',tri:'#A9DBB4'};
 const FNOME={mi:'milhões',bi:'bilhões',tri:'trilhões'};
 function tipCor(v){return v>=1e12?'#A9DBB4':v>=1e9?'#F5C58F':'#F2A0A0';}
-const REF_TOL=0.20; // janela de tolerância das referências: valor × [1-REF_TOL, 1+REF_TOL]
+const REF_TOL=0.05; // janela de tolerância das referências: valor × [1-REF_TOL, 1+REF_TOL]
 function fmtPctVal(v){
   if(v>=10)return v.toFixed(1).replace('.',',')+'%';
   if(v>=1)return v.toFixed(2).replace('.',',')+'%';
@@ -1121,35 +1121,36 @@ function fitSwarm(pts,r,limite,rmin){
   return r;
 }
 
-function pintaFixo(c,s,on,d){
-  c.setAttribute('fill',on?'#9AA3B2':FCOR[d.f]);
+function pintaFixo(c,s,on,d,corBase){
+  c.setAttribute('fill',on?'#9AA3B2':(corBase||FCOR[d.f]));
   c.setAttribute('fill-opacity',on?'1':'.85');
   c.setAttribute('stroke',on?'#FFFFFF':'#0E1428');
   c.setAttribute('stroke-width',on?2.5:1);
 }
 function soltar(){
-  locked.forEach(L=>{pintaFixo(L.c,L.r,false,L.d);if(L.el)L.el.remove();});
+  locked.forEach(L=>{pintaFixo(L.c,L.r,false,L.d,L.corBase);if(L.el)L.el.remove();});
   locked=[];
   hideTip();
 }
-function toggleLock(d,c,s,e){
+function toggleLock(d,c,s,e,corBase){
   const idx=locked.findIndex(L=>L.c===c);
   if(idx>=0){
-    pintaFixo(c,s,false,d);
+    pintaFixo(c,s,false,d,corBase);
     locked.splice(idx,1);
   } else {
     if(locked.length>=2){
-      locked.forEach(L=>{pintaFixo(L.c,L.r,false,L.d);if(L.el)L.el.remove();});
+      locked.forEach(L=>{pintaFixo(L.c,L.r,false,L.d,L.corBase);if(L.el)L.el.remove();});
       locked=[];
     }
-    pintaFixo(c,s,true,d);
-    locked.push({c,r:s,d,x:e.clientX,y:e.clientY});
+    pintaFixo(c,s,true,d,corBase);
+    locked.push({c,r:s,d,x:e.clientX,y:e.clientY,corBase});
   }
   hideTip();
   renderLocked();
 }
-function quadrado(d,x,y,s){
-  const rct=el('rect',{x:x,y:y,width:s,height:s,fill:FCOR[d.f],'fill-opacity':.85,stroke:'#0E1428','stroke-width':1});
+function quadrado(d,x,y,s,corBase){
+  corBase=corBase||FCOR[d.f];
+  const rct=el('rect',{x:x,y:y,width:s,height:s,fill:corBase,'fill-opacity':.85,stroke:'#0E1428','stroke-width':1});
   rct.setAttribute('class','pt');
   rct.addEventListener('mouseenter',e=>{
     if(locked.some(L=>L.c===rct))return;
@@ -1167,13 +1168,20 @@ function quadrado(d,x,y,s){
   });
   rct.addEventListener('click',e=>{
     e.stopPropagation();
-    toggleLock(d,rct,s,e);
+    toggleLock(d,rct,s,e,corBase);
   });
   rct.addEventListener('dblclick',e=>{
     e.stopPropagation();e.preventDefault();
     if(d.url)open(d.url,'_blank');
   });
   return rct;
+}
+function numLabel(x,y,s,num){
+  const fs=Math.max(4,Math.min(s*0.55,11));
+  const t=el('text',{x:x+s/2,y:y+s/2+fs*0.35,'text-anchor':'middle'});
+  t.setAttribute('style','font-size:'+fs+'px;font-family:Calibri,sans-serif;font-weight:700;fill:#0E1428;pointer-events:none;user-select:none');
+  t.textContent=String(num);
+  return t;
 }
 
 const refCaptions=document.getElementById('refCaptions');
@@ -1219,8 +1227,25 @@ function render(){
     }
     const C=melhorC,s=Math.max(2,melhorS);
 
+    // ── referências: janela ±REF_TOL em torno do valor — calcula o conjunto de índices marcados e a legenda ──
+    const marcados=new Set();
+    let capHtml='';
+    marcasAtivas.forEach(mk=>{
+      const cor=mk.cor||'#0F766E';
+      const lo=mk.valor*(1-REF_TOL),hi=mk.valor*(1+REF_TOL);
+      const gLo=ord.findIndex(d=>d.v>=lo);
+      let gHi=-1;
+      for(let k=ord.length-1;k>=0;k--){if(ord[k].v<=hi){gHi=k;break;}}
+      let qtd=0;
+      if(gLo>=0&&gHi>=gLo){
+        qtd=gHi-gLo+1;
+        for(let k=gLo;k<=gHi;k++)marcados.add(k);
+      }
+      capHtml+='<div class="ref-cap" style="color:'+cor+'">'+mk.nome+' ('+fmt_tip(mk.valor)+', janela ±'+Math.round(REF_TOL*100)+'%): '+qtd+' fato'+(qtd===1?'':'s')+' entre '+fmt_tip(lo)+' e '+fmt_tip(hi)+'</div>';
+    });
+    if(refCaptions)refCaptions.innerHTML=capHtml;
+
     let y=margin.t;
-    const tierBounds=[]; // {f,gStart,gEnd,x0,y0,C}
     let gIdx=0;
     tiersAtivos.forEach(t=>{
       const head=el('text',{x:margin.l,y:y+11});
@@ -1235,53 +1260,16 @@ function render(){
         const x=margin.l+col*(s+cellGap);
         const yy=y0+row*(s+cellGap);
         const globalIdx=gIdx+li;
-        const rct=quadrado(d,x,yy,s);
+        const corBase=marcados.has(globalIdx)?'#FFFFFF':FCOR[d.f];
+        const rct=quadrado(d,x,yy,s,corBase);
         if(globalIdx===navIndex){rct.setAttribute('stroke','#E8ECF6');rct.setAttribute('stroke-width','2.5');navCircleEl=rct;}
         rct.addEventListener('click',()=>navSelectDirect(globalIdx,rct,d));
         svg.appendChild(rct);
+        svg.appendChild(numLabel(x,yy,s,globalIdx+1));
       });
-      tierBounds.push({f:t.f,gStart:gIdx,gEnd:gIdx+t.itens.length-1,x0:margin.l,y0,C});
       gIdx+=t.itens.length;
       y=y0+rows*(s+cellGap)-cellGap+tierGap;
     });
-
-    // ── referências: janela ±REF_TOL em torno do valor, contorno sobre o bloco correspondente ──
-    function contornoPath(tb,liStart,liEnd){
-      const r0=Math.floor(liStart/tb.C),c0=liStart%tb.C;
-      const r1=Math.floor(liEnd/tb.C),c1=liEnd%tb.C;
-      const cw=s+cellGap,ch=s+cellGap;
-      const X=c=>tb.x0+c*cw,Y=r=>tb.y0+r*ch;
-      if(r0===r1)return 'M'+X(c0)+' '+Y(r0)+' H'+(X(c1)+s)+' V'+(Y(r1)+s)+' H'+X(c0)+' Z';
-      return 'M'+X(c0)+' '+Y(r0)
-        +' H'+X(tb.C)
-        +' V'+Y(r1)
-        +' H'+(X(c1)+s)
-        +' V'+(Y(r1)+s)
-        +' H'+X(0)
-        +' V'+(Y(r0)+s)
-        +' H'+X(c0)+' Z';
-    }
-    let capHtml='';
-    marcasAtivas.forEach(mk=>{
-      const cor=mk.cor||'#0F766E';
-      const lo=mk.valor*(1-REF_TOL),hi=mk.valor*(1+REF_TOL);
-      const gLo=ord.findIndex(d=>d.v>=lo);
-      let gHi=-1;
-      for(let k=ord.length-1;k>=0;k--){if(ord[k].v<=hi){gHi=k;break;}}
-      let qtd=0;
-      if(gLo>=0&&gHi>=gLo){
-        qtd=gHi-gLo+1;
-        tierBounds.forEach(tb=>{
-          const a=Math.max(gLo,tb.gStart),b=Math.min(gHi,tb.gEnd);
-          if(a>b)return;
-          const p=el('path',{d:contornoPath(tb,a-tb.gStart,b-tb.gStart),fill:'none',stroke:cor,'stroke-width':2.2});
-          p.setAttribute('style','filter:drop-shadow(0 0 2px rgba(0,0,0,.5))');
-          svg.appendChild(p);
-        });
-      }
-      capHtml+='<div class="ref-cap" style="color:'+cor+'">'+mk.nome+' ('+fmt_tip(mk.valor)+', janela ±'+Math.round(REF_TOL*100)+'%): '+qtd+' fato'+(qtd===1?'':'s')+' entre '+fmt_tip(lo)+' e '+fmt_tip(hi)+'</div>';
-    });
-    if(refCaptions)refCaptions.innerHTML=capHtml;
 
     mcount.textContent=dados.length+' de '+DATA.length+' fatos';
   }
@@ -1302,7 +1290,7 @@ document.querySelectorAll('.ls').forEach(l=>l.addEventListener('click',()=>{
 }));
 const yBtn=document.getElementById('yBtn'),yDropdown=document.getElementById('yDropdown');
 const Y_FLAT=[];
-let yHtml='<div class="ord-rule-note">contorno = fatos entre ±'+Math.round(REF_TOL*100)+'% do valor de referência</div>';
+let yHtml='<div class="ord-rule-note">quadrado branco = fato entre ±'+Math.round(REF_TOL*100)+'% do valor de referência</div>';
 Y_OPCOES.forEach((grupo,gi)=>{
   const cor=grupo.cor||'#C8952B';
   yHtml+='<div class="ord-head ord-head-toggle" data-grp="'+gi+'" style="color:'+cor+'"><span class="ord-caret">▸</span>'+grupo.grupo+'<span class="ord-count">'+grupo.itens.length+'</span></div>';
