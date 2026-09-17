@@ -37,6 +37,9 @@ svg{display:block;width:100%;height:100%}
 .pt{cursor:pointer;transition:opacity .12s}
 .pt.dim{opacity:.13}
 .guide{stroke:#C8952B;stroke-width:1;stroke-dasharray:3 3;opacity:0}
+.ref-captions{position:absolute;top:6px;left:10px;right:10px;pointer-events:none;z-index:2}
+.ref-cap{font-size:9.5px;line-height:1.5;font-family:Calibri,sans-serif;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ord-rule-note{font-size:9px;color:#5A6680;padding:2px 14px 7px;line-height:1.4;border-bottom:1px solid #1E2947;margin-bottom:2px}
 .navbar{flex-shrink:0;border-top:1px solid #1E2947;background:#0F1830;display:flex;align-items:center;justify-content:center;gap:12px;padding:8px 10px;position:relative;z-index:10}
 .navbar[hidden]{display:none}
 .nav-btn{flex-shrink:0;background:#141C36;border:1px solid #26304F;border-radius:6px;color:#C4CDE4;font-family:Calibri,sans-serif;font-size:14px;width:38px;height:38px;min-width:38px;cursor:pointer;transition:border-color .14s,color .14s}
@@ -139,10 +142,9 @@ svg{display:block;width:100%;height:100%}
     <span class="hr">02/08/2026 (domingo) até 12/09/2026 (sábado)</span>
   </div>
   <div class="modes">
-    <span class="q-clear" id="cClear" style="display:none;cursor:pointer;color:#C8952B;font-size:10.5px;letter-spacing:.05em">✕ limpar linha de corte</span>
     <span class="mcount" id="mcount"></span>
   </div>
-  <div class="stage" id="stage"></div>
+  <div class="stage" id="stage"><div class="ref-captions" id="refCaptions"></div></div>
   <div class="navbar" id="navBar" hidden>
     <button class="nav-btn" id="navPrev" type="button" aria-label="Fato anterior">◀</button>
     <div class="nav-pos" id="navInfo"></div>
@@ -158,26 +160,14 @@ svg{display:block;width:100%;height:100%}
       <button class="menu-btn" id="menuBtn">dados</button>
       <div class="menu-dropdown" id="menuDropdown">
         <div class="menu-section">
-          <h4>Por que curva ordenada em vez de treemap</h4>
-          <p>No treemap, cada fato vira uma área, e áreas competem por espaço: para caber tudo numa tela, o tamanho precisa ser distorcido e a posição não significa nada. Aqui cada fato é um ponto, e o que carrega a informação é a <strong style="color:#E8ECF6">posição no eixo</strong> — não a área.</p>
-          <p style="margin-top:8px">Os 339 fatos são ordenados do menor para o maior valor e aparecem todos de uma vez, sem paginação: o olho lê onde estão as concentrações, os vazios e os casos isolados.</p>
+          <h4>Por que uma grade em vez de treemap ou curva</h4>
+          <p>No treemap, cada fato vira uma área, e áreas competem por espaço: para caber tudo numa tela, o tamanho precisa ser distorcido e a posição não significa nada. Aqui cada fato é um <strong style="color:#E8ECF6">quadrado do mesmo tamanho</strong> — o valor não é codificado por área nem por posição num eixo contínuo, só pela cor (milhões / bilhões / trilhões). Isso evita sugerir uma tendência ou correlação que não existe.</p>
+          <p style="margin-top:8px">Dentro de cada faixa, os quadrados seguem a ordem de leitura — esquerda → direita, voltando para a esquerda na linha de baixo — do menor para o maior valor. As três faixas aparecem em blocos separados por um espaço visível (a quebra na grade), não por um degradê de cor.</p>
         </div>
         <div class="menu-section">
-          <h4>O eixo Y — valor, em escala log</h4>
-          <p>O eixo é <strong style="color:#E8ECF6">logarítmico</strong>: cada marca vale dez vezes a anterior. A distância entre dois pontos mostra quantas vezes um valor é múltiplo do outro — de R$ 1 mi a R$ 10 mi há a mesma distância que de R$ 10 bi a R$ 100 bi.</p>
-        </div>
-        <div class="menu-section">
-          <h4>O eixo X — posição no ranking</h4>
-          <p>Os fatos são ordenados do menor para o maior valor; a posição no eixo X é só essa ordem (1º menor, 2º menor, ...), não deriva do valor em si. Por isso as duas dimensões do gráfico são de fato independentes. As marcas do eixo aparecem em números redondos (de 10 em 10, de 50 em 50, de 100 em 100...) conforme a quantidade de fatos visíveis.</p>
-        </div>
-        <div class="menu-section">
-          <h4>Marcar uma referência no eixo X</h4>
-          <p>No menu <strong style="color:#E8ECF6">Referências</strong> (rodapé) abra uma categoria e escolha um item: uma linha vertical aparece no ranking, na cor da categoria, mostrando onde aquele valor cairia entre os fatos — quantos valem menos e quantos valem mais. Pode marcar itens de várias categorias ao mesmo tempo; clique de novo no item para remover.</p>
+          <h4>Marcar uma referência</h4>
+          <p>No menu <strong style="color:#E8ECF6">Referências</strong> (rodapé) abra uma categoria e escolha um item: os quadrados cujo valor cai dentro de uma <strong style="color:#E8ECF6">janela de ±20% do valor de referência</strong> ganham um <strong style="color:#E8ECF6">contorno</strong> na cor da categoria, mantendo a própria cor de faixa — sem recolorir o bloco. Uma legenda no topo da grade mostra o valor de referência, a regra (±20%) e quantos fatos entraram na janela. Pode marcar itens de várias categorias ao mesmo tempo; clique de novo no item para remover.</p>
           <p style="margin-top:8px">Categorias disponíveis: <strong style="color:#06B6D4">PIB nominal — G20</strong>, <strong style="color:#6366F1">Orçamento Federal — LOA 2026</strong>, <strong style="color:#A78BFA">Estados — orçamento por porte</strong>, <strong style="color:#F2A0A0">Municípios — orçamento por porte</strong> e <strong style="color:#A9DBB4">Investimento público</strong> (infraestrutura, saúde, educação e segurança). Valores de estados/municípios vêm das respectivas LOAs 2026; segurança pública nacional, do Anuário Brasileiro de Segurança Pública 2025; Novo PAC, dos balanços oficiais do programa.</p>
-        </div>
-        <div class="menu-section">
-          <h4>Linha de corte</h4>
-          <p><strong style="color:#E8ECF6">Clique em qualquer ponto do gráfico</strong> para marcar uma linha de corte <strong style="color:#C8952B">dourada</strong> na altura escolhida: ela mostra o valor exato e quantos fatos ficam acima e abaixo dele. Clique em outro ponto para mover a linha, ou em "✕ limpar linha de corte" para remover.</p>
         </div>
         <div class="menu-section">
           <h4>Comparar dois fatos</h4>
@@ -198,6 +188,7 @@ function faixa(v){return v>=1e12?'tri':v>=1e9?'bi':'mi';}
 const FCOR={mi:'#F2A0A0',bi:'#F5C58F',tri:'#A9DBB4'};
 const FNOME={mi:'milhões',bi:'bilhões',tri:'trilhões'};
 function tipCor(v){return v>=1e12?'#A9DBB4':v>=1e9?'#F5C58F':'#F2A0A0';}
+const REF_TOL=0.20; // janela de tolerância das referências: valor × [1-REF_TOL, 1+REF_TOL]
 function fmtPctVal(v){
   if(v>=10)return v.toFixed(1).replace('.',',')+'%';
   if(v>=1)return v.toFixed(2).replace('.',',')+'%';
@@ -991,9 +982,6 @@ const DATA=[
   {t:'O mercado de tesouraria de $ 30 trilhões está enfrentando um acerto de contas doloroso. Como o aumento dos rendimentos pode espremer seu portfólio.',v:152262000000000.0,src:'MarketWatch',d:'12/08/2026',p:'EUA',url:'https://www.marketwatch.com/story/the-30-trillion-treasury-market-is-facing-a-painful-reckoning-how-rising-yields-could-squeeze-your-portfolio-8fa9edd8?mod=mw_rss_topstories',f:'tri',cat5:'Serviços e tecnologia',_spec5:'real',dist_med:5.2317},
   {t:'Dívida dos EUA supera US$ 40 trilhões pela primeira vez',v:203016000000000.0,src:'NY Times',d:'19/08/2026',p:'EUA',url:'https://www.nytimes.com/2026/08/19/business/economy/us-debt-40-trillion.html',f:'tri',cat5:'Mercados e capital',_spec5:'real',dist_med:5.3567}
 ];
-const PMIN=6,PMAX=15;
-const MEDIA_V=9.0071;
-let MEDIA_PIB=null;
 DATA.sort((a,b)=>a.v-b.v);
 const CAT5_KW={
   'Indústria e produção':['petróleo','mineração','minério','agro','soja','carne','jbs','café','fertilizante','lítio','ouro','cobre','alumínio','commodit','safra','colheita','energia elétrica','elétr','taesa','transmissora','usina','refinaria','petroquímica','petrobras','vale ','shell','exxon','bp ','chevron','total ','repsol','construção civil','obra','infraestrutura','ferrovia','porto','aeroporto','saneamento','galpão','logística','frota','montadora','automóvel','toyota','volkswagen','ford ','gm ','stellantis','embraer','boeing','airbus','manufatura','fábrica','indústria','exportação','importação','balança comercial','agronegócio','pecuária','laticínio','frigorífico','marfrig','minerva','brf ','companhia aérea','aérea','aviação','combustível de aviação','abacate','monterey car','lithium ionic','pls compra','parque aquático','fatura r$','negócio de família','conserta equipamentos','propriedade equestre','ryanair','fazenda','haras'],
@@ -1034,13 +1022,11 @@ const tip=document.getElementById('tip');
 const mcount=document.getElementById('mcount');
 const ativo={mi:true,bi:true,tri:true};
 let faixaIsolada=null;
-let corteCurva=null; // valor (R$) da linha de corte no modo "curva ordenada"
 let navIndex=null; // posição (rank) selecionada para navegação por teclado/botões
 let ordAtual=[]; // última lista ordenada renderizada, para a navegação
 function visiveis(){return DATA.filter(d=>ativo[d.f]);}
 
 function el(n,a){const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);return e;}
-function tickLabel(p){const v=Math.pow(10,p);return v>=1e12?(v/1e12)+' tri':v>=1e9?(v/1e9)+' bi':(v/1e6)+' mi';}
 
 function tipHTML(d,opts){
   opts=opts||{};
@@ -1135,86 +1121,69 @@ function fitSwarm(pts,r,limite,rmin){
   return r;
 }
 
-function pintaFixo(c,r,on,d){
-  c.setAttribute('r',on?r*1.75:r);
+function pintaFixo(c,s,on,d){
   c.setAttribute('fill',on?'#9AA3B2':FCOR[d.f]);
-  c.setAttribute('fill-opacity',on?'1':'.82');
+  c.setAttribute('fill-opacity',on?'1':'.85');
   c.setAttribute('stroke',on?'#FFFFFF':'#0E1428');
-  c.setAttribute('stroke-width',on?2:1);
+  c.setAttribute('stroke-width',on?2.5:1);
 }
 function soltar(){
   locked.forEach(L=>{pintaFixo(L.c,L.r,false,L.d);if(L.el)L.el.remove();});
   locked=[];
   hideTip();
 }
-function toggleLock(d,c,r,e){
+function toggleLock(d,c,s,e){
   const idx=locked.findIndex(L=>L.c===c);
   if(idx>=0){
-    pintaFixo(c,r,false,d);
+    pintaFixo(c,s,false,d);
     locked.splice(idx,1);
   } else {
     if(locked.length>=2){
       locked.forEach(L=>{pintaFixo(L.c,L.r,false,L.d);if(L.el)L.el.remove();});
       locked=[];
     }
-    pintaFixo(c,r,true,d);
-    locked.push({c,r,d,x:e.clientX,y:e.clientY});
+    pintaFixo(c,s,true,d);
+    locked.push({c,r:s,d,x:e.clientX,y:e.clientY});
   }
   hideTip();
   renderLocked();
 }
-function ponto(d,cx,cy,r,corHover){
-  const c=el('circle',{cx:cx,cy:cy,r:r,fill:FCOR[d.f],'fill-opacity':.82,stroke:'#0E1428','stroke-width':1});
-  c.setAttribute('class','pt');
-  c.addEventListener('mouseenter',e=>{
-    if(locked.some(L=>L.c===c))return;
-    c.setAttribute('r',r*1.4);
-    if(corHover){c.setAttribute('fill',corHover);c.setAttribute('fill-opacity','1');}
+function quadrado(d,x,y,s){
+  const rct=el('rect',{x:x,y:y,width:s,height:s,fill:FCOR[d.f],'fill-opacity':.85,stroke:'#0E1428','stroke-width':1});
+  rct.setAttribute('class','pt');
+  rct.addEventListener('mouseenter',e=>{
+    if(locked.some(L=>L.c===rct))return;
+    rct.setAttribute('stroke','#E8ECF6');rct.setAttribute('stroke-width','2');rct.setAttribute('fill-opacity','1');
     showTip(d,e);
   });
-  c.addEventListener('mousemove',e=>{
-    if(locked.some(L=>L.c===c))return;
+  rct.addEventListener('mousemove',e=>{
+    if(locked.some(L=>L.c===rct))return;
     moveTip(e);
   });
-  c.addEventListener('mouseleave',()=>{
-    if(locked.some(L=>L.c===c))return;
-    c.setAttribute('r',r);
-    c.setAttribute('fill',FCOR[d.f]);c.setAttribute('fill-opacity','.82');
+  rct.addEventListener('mouseleave',()=>{
+    if(locked.some(L=>L.c===rct))return;
+    rct.setAttribute('stroke','#0E1428');rct.setAttribute('stroke-width','1');rct.setAttribute('fill-opacity','.85');
     hideTip();
   });
-  c.addEventListener('click',e=>{
+  rct.addEventListener('click',e=>{
     e.stopPropagation();
-    toggleLock(d,c,r,e);
+    toggleLock(d,rct,s,e);
   });
-  c.addEventListener('dblclick',e=>{
+  rct.addEventListener('dblclick',e=>{
     e.stopPropagation();e.preventDefault();
     if(d.url)open(d.url,'_blank');
   });
-  return c;
+  return rct;
 }
 
-function eixoLog(svg,x0,x1,ymin,ymax,yaxis,pmin,pmax){
-  // subgrades em 2× e 5× dentro de cada década
-  for(let p=pmin;p<pmax;p++){
-    [Math.log10(2),Math.log10(5)].forEach(off=>{
-      const x=x0+(p+off-pmin)/(pmax-pmin)*(x1-x0);
-      svg.appendChild(el('line',{x1:x,y1:ymin,x2:x,y2:ymax,class:'grid',style:'stroke:#1E2E4A;stroke-dasharray:3 3'}));
-    });
-  }
-  // décadas (linhas principais)
-  for(let p=pmin;p<=pmax;p++){
-    const x=x0+(p-pmin)/(pmax-pmin)*(x1-x0);
-    svg.appendChild(el('line',{x1:x,y1:ymin,x2:x,y2:ymax,class:'grid-major'}));
-    const t=el('text',{x:x,y:yaxis,class:'axis-t','text-anchor':'middle'});
-    t.textContent=tickLabel(p);svg.appendChild(t);
-  }
-}
+const refCaptions=document.getElementById('refCaptions');
 
 function render(){
   locked.forEach(L=>{if(L.el)L.el.remove();});
   locked=[];hideTip();
   if(navTipEl){navTipEl.remove();navTipEl=null;}
-  stage.innerHTML='';
+  const oldSvg=stage.querySelector('svg');if(oldSvg)oldSvg.remove();
+  if(refCaptions)refCaptions.innerHTML='';
   const W=stage.clientWidth,H=stage.clientHeight;
   if(!W||!H)return;
   const svg=el('svg',{viewBox:'0 0 '+W+' '+H});
@@ -1222,127 +1191,97 @@ function render(){
   mcount.textContent=dados.length+' de '+DATA.length+' fatos';
   if(!dados.length){stage.appendChild(svg);return;}
   {
-    const m={t:22,r:118,b:44,l:62};
-    const x0=m.l,x1=W-m.r,y0=m.t,y1=H-m.b;
-    let cPMIN=PMIN,cPMAX=PMAX;
-    if(faixaIsolada&&dados.length){
-      const lvs=dados.map(d=>Math.log10(d.v));
-      cPMIN=Math.floor(Math.min(...lvs)-0.3);cPMAX=Math.ceil(Math.max(...lvs)+0.3);
-    }
-    for(let p=Math.floor(cPMIN);p<=Math.ceil(cPMAX);p++){
-      const y=y1-(p-cPMIN)/(cPMAX-cPMIN)*(y1-y0);
-      if(y<y0-1||y>y1+1)continue;
-      svg.appendChild(el('line',{x1:x0,y1:y,x2:x1,y2:y,class:'grid-major'}));
-      const t=el('text',{x:x0-8,y:y+3,class:'axis-t','text-anchor':'end'});
-      t.textContent=tickLabel(p);svg.appendChild(t);
-    }
+    const headerH=15,tierGap=22,cellGap=2;
+    const capH=marcasAtivas.length?(8+marcasAtivas.length*13):0;
+    const margin={t:8+capH,r:8,b:8,l:10};
+    const innerW=Math.max(10,W-margin.l-margin.r),innerH=Math.max(10,H-margin.t-margin.b);
 
-    const ord=dados.slice().sort((a,b)=>a.v-b.v);
+    const ord=dados; // já ordenado ascendente (DATA é ordenado uma vez, visiveis() preserva a ordem)
     const n=ord.length;
     ordAtual=ord;
     if(navIndex!=null)navIndex=n?Math.max(0,Math.min(navIndex,n-1)):null;
-    function yOfV(v){return Math.max(y0,Math.min(y1,y1-(Math.log10(v)-cPMIN)/(cPMAX-cPMIN)*(y1-y0)));}
-    function xOfI(i){return n<=1?(x0+x1)/2:x0+i/(n-1)*(x1-x0);}
-    const r=Math.max(2,Math.min(6,(x1-x0)/Math.max(n,1)*0.85));
 
-    // ── marcas do eixo X: posição no ranking, só em números redondos ──
-    function niceStep(rough){
-      rough=Math.max(1,rough);
-      const mag=Math.pow(10,Math.floor(Math.log10(rough)));
-      const norm=rough/mag;
-      const mult=norm<1.5?1:norm<3?2:norm<7?5:10;
-      return Math.max(1,Math.round(mult*mag));
-    }
-    const stepX=n>1?niceStep(n/7):1;
-    for(let rank=stepX;rank<=n;rank+=stepX){
-      const xx=xOfI(rank-1);
-      svg.appendChild(el('line',{x1:xx,y1:y0,x2:xx,y2:y1,class:'grid',style:'stroke:#1E2E4A;stroke-dasharray:2 4'}));
-      const t=el('text',{x:xx,y:y1+13,class:'axis-t','text-anchor':'middle'});
-      t.textContent=String(rank);svg.appendChild(t);
-    }
+    // agrupa em blocos por faixa, preservando a ordem — já é contíguo, pois ord está ordenado por valor
+    const tiers=['mi','bi','tri'].map(f=>({f,itens:ord.filter(d=>d.f===f)}));
+    const tiersAtivos=tiers.filter(t=>t.itens.length);
 
-    svg.appendChild(el('line',{x1:x0,y1:y0,x2:x0,y2:y1,class:'axis-line'}));
-    svg.appendChild(el('line',{x1:x0,y1:y1,x2:x1,y2:y1,class:'axis-line'}));
-    const bx=el('text',{x:(x0+x1)/2,y:y1+30,class:'axis-t','text-anchor':'middle'});
-    bx.setAttribute('style','fill:#5A6680;font-size:9px;letter-spacing:.1em;text-transform:uppercase');
-    bx.textContent='posição no ranking, do menor para o maior valor →';
-    svg.appendChild(bx);
-
-    // ── camada de interação: clique define/move a linha de corte ──────
-    const rect=el('rect',{x:x0,y:y0,width:Math.max(0,x1-x0),height:Math.max(0,y1-y0),fill:'transparent',style:'cursor:crosshair'});
-    const guide=el('line',{x1:x0,y1:y0,x2:x1,y2:y0,style:'stroke:#C8952B;stroke-width:1;stroke-dasharray:2 4;opacity:0;pointer-events:none'});
-    function valorNoClientY(clientY){
-      const box=svg.getBoundingClientRect();
-      const scaleY=box.height?H/box.height:1;
-      const yy=Math.max(y0,Math.min(y1,(clientY-box.top)*scaleY));
-      const p=cPMIN+(y1-yy)/(y1-y0)*(cPMAX-cPMIN);
-      return Math.pow(10,p);
+    // escolhe o nº de colunas que maximiza o tamanho do quadrado, dado o espaço disponível
+    let melhorC=4,melhorS=0;
+    const maxC=Math.max(4,Math.floor(innerW/6));
+    for(let C=4;C<=maxC;C++){
+      let rows=0;
+      tiersAtivos.forEach(t=>{rows+=Math.ceil(t.itens.length/C);});
+      const usedH=tiersAtivos.length*headerH+Math.max(0,tiersAtivos.length-1)*tierGap;
+      const sW=(innerW-(C-1)*cellGap)/C;
+      const sH=(innerH-usedH-Math.max(0,rows-1)*cellGap)/Math.max(1,rows);
+      const s=Math.min(sW,sH);
+      if(s>melhorS){melhorS=s;melhorC=C;}
     }
-    rect.addEventListener('mousemove',e=>{
-      const box=svg.getBoundingClientRect();
-      const scaleY=box.height?H/box.height:1;
-      const yy=Math.max(y0,Math.min(y1,(e.clientY-box.top)*scaleY));
-      guide.setAttribute('y1',yy);guide.setAttribute('y2',yy);guide.setAttribute('opacity','.5');
+    const C=melhorC,s=Math.max(2,melhorS);
+
+    let y=margin.t;
+    const tierBounds=[]; // {f,gStart,gEnd,x0,y0,C}
+    let gIdx=0;
+    tiersAtivos.forEach(t=>{
+      const head=el('text',{x:margin.l,y:y+11});
+      head.setAttribute('style','fill:#5A6680;font-size:9px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;font-family:Calibri,sans-serif');
+      head.textContent=FNOME[t.f]+' — '+t.itens.length;
+      svg.appendChild(head);
+      y+=headerH;
+      const y0=y;
+      const rows=Math.ceil(t.itens.length/C);
+      t.itens.forEach((d,li)=>{
+        const row=Math.floor(li/C),col=li%C;
+        const x=margin.l+col*(s+cellGap);
+        const yy=y0+row*(s+cellGap);
+        const globalIdx=gIdx+li;
+        const rct=quadrado(d,x,yy,s);
+        if(globalIdx===navIndex){rct.setAttribute('stroke','#E8ECF6');rct.setAttribute('stroke-width','2.5');navCircleEl=rct;}
+        rct.addEventListener('click',()=>navSelectDirect(globalIdx,rct,d));
+        svg.appendChild(rct);
+      });
+      tierBounds.push({f:t.f,gStart:gIdx,gEnd:gIdx+t.itens.length-1,x0:margin.l,y0,C});
+      gIdx+=t.itens.length;
+      y=y0+rows*(s+cellGap)-cellGap+tierGap;
     });
-    rect.addEventListener('mouseleave',()=>{if(corteCurva==null)guide.setAttribute('opacity','0');});
-    rect.addEventListener('click',e=>{
-      e.stopPropagation();
-      corteCurva=valorNoClientY(e.clientY);
-      hideTip();render();
-    });
-    svg.appendChild(rect);
-    svg.appendChild(guide);
 
-    // ── referências marcadas (PIB/Orçamento): posição interpolada no ranking ──
-    function rankOfValue(V){
-      if(!n)return 0;
-      if(V<=ord[0].v)return 0;
-      if(V>=ord[n-1].v)return n-1;
-      let lo=0,hi=n-1;
-      while(hi-lo>1){const mid=(lo+hi)>>1;if(ord[mid].v<=V)lo=mid;else hi=mid;}
-      const v0=ord[lo].v,v1=ord[hi].v;
-      const frac=v1>v0?(Math.log10(V)-Math.log10(v0))/(Math.log10(v1)-Math.log10(v0)):0;
-      return lo+frac;
+    // ── referências: janela ±REF_TOL em torno do valor, contorno sobre o bloco correspondente ──
+    function contornoPath(tb,liStart,liEnd){
+      const r0=Math.floor(liStart/tb.C),c0=liStart%tb.C;
+      const r1=Math.floor(liEnd/tb.C),c1=liEnd%tb.C;
+      const cw=s+cellGap,ch=s+cellGap;
+      const X=c=>tb.x0+c*cw,Y=r=>tb.y0+r*ch;
+      if(r0===r1)return 'M'+X(c0)+' '+Y(r0)+' H'+(X(c1)+s)+' V'+(Y(r1)+s)+' H'+X(c0)+' Z';
+      return 'M'+X(c0)+' '+Y(r0)
+        +' H'+X(tb.C)
+        +' V'+Y(r1)
+        +' H'+(X(c1)+s)
+        +' V'+(Y(r1)+s)
+        +' H'+X(0)
+        +' V'+(Y(r0)+s)
+        +' H'+X(c0)+' Z';
     }
+    let capHtml='';
     marcasAtivas.forEach(mk=>{
-      const xx=xOfI(rankOfValue(mk.valor));
       const cor=mk.cor||'#0F766E';
-      svg.appendChild(el('line',{x1:xx,y1:y0,x2:xx,y2:y1,style:'stroke:'+cor+';stroke-width:1.2;stroke-dasharray:4 3;opacity:.8'}));
+      const lo=mk.valor*(1-REF_TOL),hi=mk.valor*(1+REF_TOL);
+      const gLo=ord.findIndex(d=>d.v>=lo);
+      let gHi=-1;
+      for(let k=ord.length-1;k>=0;k--){if(ord[k].v<=hi){gHi=k;break;}}
+      let qtd=0;
+      if(gLo>=0&&gHi>=gLo){
+        qtd=gHi-gLo+1;
+        tierBounds.forEach(tb=>{
+          const a=Math.max(gLo,tb.gStart),b=Math.min(gHi,tb.gEnd);
+          if(a>b)return;
+          const p=el('path',{d:contornoPath(tb,a-tb.gStart,b-tb.gStart),fill:'none',stroke:cor,'stroke-width':2.2});
+          p.setAttribute('style','filter:drop-shadow(0 0 2px rgba(0,0,0,.5))');
+          svg.appendChild(p);
+        });
+      }
+      capHtml+='<div class="ref-cap" style="color:'+cor+'">'+mk.nome+' ('+fmt_tip(mk.valor)+', janela ±'+Math.round(REF_TOL*100)+'%): '+qtd+' fato'+(qtd===1?'':'s')+' entre '+fmt_tip(lo)+' e '+fmt_tip(hi)+'</div>';
     });
-
-    ord.forEach((d,i)=>{
-      const c=ponto(d,xOfI(i),yOfV(d.v),r);
-      if(i===navIndex){c.setAttribute('stroke','#E8ECF6');c.setAttribute('stroke-width','2.5');navCircleEl=c;}
-      c.addEventListener('click',()=>navSelectDirect(i,c,d));
-      svg.appendChild(c);
-    });
-
-    marcasAtivas.forEach((mk,mi)=>{
-      const xx=xOfI(rankOfValue(mk.valor));
-      const ly=y0+12+((mi%3)*13);
-      const cor=mk.cor||'#0F766E';
-      const lbl=el('text',{x:xx,y:ly,class:'axis-t','text-anchor':'middle'});
-      lbl.setAttribute('style','fill:'+cor+';font-size:9px;font-weight:700');
-      lbl.textContent=mk.nome+' · '+fmt_tip(mk.valor);
-      svg.appendChild(lbl);
-    });
-
-    const cClearEl=document.getElementById('cClear');
-    if(corteCurva!=null&&n){
-      const yy=yOfV(corteCurva);
-      svg.appendChild(el('line',{x1:x0,y1:yy,x2:x1,y2:yy,style:'stroke:#C8952B;stroke-width:1.4;stroke-dasharray:5 4'}));
-      const acima=ord.filter(d=>d.v>=corteCurva).length;
-      const abaixo=n-acima;
-      const lbl=el('text',{x:x1+8,y:Math.max(y0+9,yy-4),class:'axis-t'});
-      lbl.setAttribute('style','fill:#C8952B;font-size:10.5px;font-weight:700');
-      lbl.textContent=fmt_tip(corteCurva);
-      svg.appendChild(lbl);
-      const lbl2=el('text',{x:x1+8,y:Math.max(y0+22,yy+11),class:'axis-t'});
-      lbl2.setAttribute('style','fill:#8894B4;font-size:9px');
-      lbl2.textContent=acima+' acima · '+abaixo+' abaixo';
-      svg.appendChild(lbl2);
-      if(cClearEl)cClearEl.style.display='inline';
-    } else if(cClearEl)cClearEl.style.display='none';
+    if(refCaptions)refCaptions.innerHTML=capHtml;
 
     mcount.textContent=dados.length+' de '+DATA.length+' fatos';
   }
@@ -1361,11 +1300,9 @@ document.querySelectorAll('.ls').forEach(l=>l.addEventListener('click',()=>{
   document.querySelectorAll('.ls').forEach(x=>x.classList.toggle('off', faixaIsolada && x.dataset.f!==faixaIsolada));
   hideTip();render();
 }));
-const cClear=document.getElementById('cClear');
-if(cClear)cClear.addEventListener('click',e=>{e.stopPropagation();corteCurva=null;hideTip();render();});
 const yBtn=document.getElementById('yBtn'),yDropdown=document.getElementById('yDropdown');
 const Y_FLAT=[];
-let yHtml='';
+let yHtml='<div class="ord-rule-note">contorno = fatos entre ±'+Math.round(REF_TOL*100)+'% do valor de referência</div>';
 Y_OPCOES.forEach((grupo,gi)=>{
   const cor=grupo.cor||'#C8952B';
   yHtml+='<div class="ord-head ord-head-toggle" data-grp="'+gi+'" style="color:'+cor+'"><span class="ord-caret">▸</span>'+grupo.grupo+'<span class="ord-count">'+grupo.itens.length+'</span></div>';
