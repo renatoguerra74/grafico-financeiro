@@ -153,16 +153,16 @@ svg{display:block;width:100%;height:100%}
     <button class="nav-x" id="navClose" type="button" aria-label="Fechar navegação">✕</button>
   </div>
   <div class="footer">
-    <span class="ls" data-f="mi"><i class="dot" style="background:#6FA8DC"></i>milhões</span>
-    <span class="ls" data-f="bi"><i class="dot" style="background:#D9A94E"></i>bilhões</span>
-    <span class="ls" data-f="tri"><i class="dot" style="background:#E2725B"></i>trilhões</span>
+    <span class="ls" data-f="mi"><i class="dot" style="background:#9EC5F4"></i>milhões</span>
+    <span class="ls" data-f="bi"><i class="dot" style="background:#6DA7EC"></i>bilhões</span>
+    <span class="ls" data-f="tri"><i class="dot" style="background:#3987E5"></i>trilhões</span>
     <div id="swarmMenus" style="display:flex;gap:6px;align-items:center"><div class="ord-wrap" id="yWrap"><button class="ord-btn" id="yBtn">Referências ▾</button><div class="ord-dropdown" id="yDropdown"></div></div><span class="leg-note" id="legNote">passe o mouse para ver o valor · clique para fixar (até 2, para comparar) · duplo clique abre a matéria · Esc ou clique fora solta</span>
     <div class="menu-wrap">
       <button class="menu-btn" id="menuBtn">dados</button>
       <div class="menu-dropdown" id="menuDropdown">
         <div class="menu-section">
           <h4>Por que uma grade em vez de treemap ou curva</h4>
-          <p>No treemap, cada fato vira uma área, e áreas competem por espaço: para caber tudo numa tela, o tamanho precisa ser distorcido e a posição não significa nada. Aqui cada fato é um <strong style="color:#E8ECF6">quadrado do mesmo tamanho</strong> — o valor não é codificado por área nem por posição num eixo contínuo, só pela cor (milhões / bilhões / trilhões). Isso evita sugerir uma tendência ou correlação que não existe. O número dentro de cada quadrado é a posição do fato no ranking geral, do menor para o maior valor — o mesmo número usado na navegação por setas.</p>
+          <p>No treemap, cada fato vira uma área, e áreas competem por espaço: para caber tudo numa tela, o tamanho precisa ser distorcido e a posição não significa nada. Aqui cada fato é um <strong style="color:#E8ECF6">quadrado do mesmo tamanho</strong> — o valor não é codificado por área nem por posição num eixo contínuo, só pela cor (milhões / bilhões / trilhões). Isso evita sugerir uma tendência ou correlação que não existe. O número dentro de cada quadrado é o próprio valor do fato, arredondado, na unidade da faixa em que está — por exemplo, R$ 1,36 milhão aparece como "1" na faixa milhões, e R$ 5,89 bilhões aparece como "6" na faixa bilhões.</p>
           <p style="margin-top:8px">Dentro de cada faixa, os quadrados seguem a ordem de leitura — esquerda → direita, voltando para a esquerda na linha de baixo — do menor para o maior valor. As três faixas aparecem em blocos separados por um espaço visível (a quebra na grade), não por um degradê de cor.</p>
         </div>
         <div class="menu-section">
@@ -186,9 +186,9 @@ svg{display:block;width:100%;height:100%}
 <script>
 const fmt_tip=v=>v>=1e12?'R$ '+(v/1e12).toFixed(2).replace('.',',')+' tri':v>=1e9?'R$ '+(v/1e9).toFixed(2).replace('.',',')+' bi':'R$ '+(v/1e6).toFixed(2).replace('.',',')+' mi';
 function faixa(v){return v>=1e12?'tri':v>=1e9?'bi':'mi';}
-const FCOR={mi:'#6FA8DC',bi:'#D9A94E',tri:'#E2725B'};
+const FCOR={mi:'#9EC5F4',bi:'#6DA7EC',tri:'#3987E5'};
 const FNOME={mi:'milhões',bi:'bilhões',tri:'trilhões'};
-function tipCor(v){return v>=1e12?'#E2725B':v>=1e9?'#D9A94E':'#6FA8DC';}
+function tipCor(v){return v>=1e12?'#3987E5':v>=1e9?'#6DA7EC':'#9EC5F4';}
 const REF_TOL=0.05; // janela de tolerância das referências: valor × [1-REF_TOL, 1+REF_TOL]
 function fmtPctVal(v){
   if(v>=10)return v.toFixed(1).replace('.',',')+'%';
@@ -1177,6 +1177,10 @@ function quadrado(d,x,y,s,corBase){
   });
   return rct;
 }
+function valorNum(d){
+  const div=d.f==='mi'?1e6:d.f==='bi'?1e9:1e12;
+  return Math.round(d.v/div);
+}
 function numLabel(x,y,s,num){
   const fs=Math.max(4,Math.min(s*0.55,11));
   const t=el('text',{x:x+s/2,y:y+s/2+fs*0.35,'text-anchor':'middle'});
@@ -1266,7 +1270,7 @@ function render(){
         if(globalIdx===navIndex){rct.setAttribute('stroke','#E8ECF6');rct.setAttribute('stroke-width','2.5');navCircleEl=rct;}
         rct.addEventListener('click',()=>navSelectDirect(globalIdx,rct,d));
         svg.appendChild(rct);
-        svg.appendChild(numLabel(x,yy,s,globalIdx+1));
+        svg.appendChild(numLabel(x,yy,s,valorNum(d)));
       });
       gIdx+=t.itens.length;
       y=y0+rows*(s+cellGap)-cellGap+tierGap;
