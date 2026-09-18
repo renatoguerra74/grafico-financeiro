@@ -95,6 +95,8 @@ svg{display:block;width:100%;height:100%}
 .ord-item.on .ord-dot{background:var(--item-color,#C8952B)}
 .ord-item .ord-label{font-size:10.5px;color:#C4CDE4;line-height:1.35}
 .ord-item .ord-sub{font-size:9px;color:#5A6680;margin-top:1px}
+.ord-fonte{color:#4A90D9;font-size:8.5px;text-decoration:none;white-space:nowrap}
+.ord-fonte:hover{color:#7AB8F5;text-decoration:underline}
 .menu-dropdown{padding-bottom:4px}
 .menu-section{padding:13px 15px;border-bottom:1px solid #1E2947}
 .menu-section:last-child{border-bottom:none}
@@ -1023,11 +1025,159 @@ DATA.forEach(d=>{d.dist_med=Math.log10(d.v)-Math.log10(MEDIANA_V);d.pct=null;});
 
 /* ---------- referências marcáveis no eixo X (rank) ---------- */
 const Y_OPCOES=[
-  {"grupo":"PIB nominal — G20 (FMI, WEO abril 2026)","cor":"#06B6D4","itens":[{"nome":"EUA","valor":164341452000000.0},{"nome":"China","valor":105822090000000.0},{"nome":"Alemanha","valor":27660930000000.0},{"nome":"Japão","valor":22230252000000.0},{"nome":"Reino Unido","valor":21621204000000.0},{"nome":"Índia","valor":21062910000000.0},{"nome":"França","valor":18271440000000.0},{"nome":"Itália","valor":13906596000000.0},{"nome":"Rússia","valor":13500564000000.0},{"nome":"Brasil","valor":13399056000000.0},{"nome":"Canadá","valor":12739254000000.0},{"nome":"Austrália","valor":10759848000000.0},{"nome":"México","valor":10759848000000.0},{"nome":"Coreia do Sul","valor":9795522000000.0},{"nome":"Turquia","valor":8323656000000.0},{"nome":"Indonésia","valor":7816116000000.0},{"nome":"Arábia Saudita","valor":7054806000000.0},{"nome":"Argentina","valor":3491875200000.0},{"nome":"África do Sul","valor":2436192000000.0}]},
-  {"grupo":"Orçamento Federal — LOA 2026 (Lei 15.346)","cor":"#6366F1","itens":[{"nome":"Orçamento total da União","valor":6540000000000.0},{"nome":"Orçamento total sem dívida","valor":4700000000000.0},{"nome":"Saúde (SUS)","valor":271300000000.0},{"nome":"Educação","valor":233700000000.0},{"nome":"Bolsa Família","valor":158600000000.0},{"nome":"Piso de investimentos (PAC)","valor":111400000000.0},{"nome":"Pé-de-Meia","valor":11500000000.0}]},
-  {"grupo":"Estados — orçamento por porte (LOA 2026)","cor":"#A78BFA","itens":[{"nome":"Roraima (menor orçamento estadual)","valor":9920000000.0},{"nome":"Amapá","valor":12425000000.0},{"nome":"Espírito Santo","valor":32937454345.0},{"nome":"Mato Grosso","valor":40700000000.0},{"nome":"Bahia","valor":77390000000.0},{"nome":"São Paulo (maior orçamento estadual)","valor":382300000000.0}]},
-  {"grupo":"Municípios — orçamento por porte (LOA 2026)","cor":"#F2A0A0","itens":[{"nome":"Olímpia-SP (~60 mil hab.)","valor":454000000.0},{"nome":"Caxias do Sul-RS (~520 mil hab.)","valor":3984718570.0},{"nome":"João Pessoa-PB (capital)","valor":5451526730.0},{"nome":"Porto Alegre-RS (capital)","valor":13690000000.0},{"nome":"Rio de Janeiro (capital)","valor":52400000000.0},{"nome":"São Paulo (maior orçamento municipal)","valor":137400000000.0}]},
-  {"grupo":"Investimento público — infra, saúde, educação, segurança","cor":"#A9DBB4","itens":[{"nome":"Segurança pública — Bahia (2026)","valor":7600000000.0},{"nome":"Segurança pública — Brasil, todos os estados (2025)","valor":163120000000.0},{"nome":"Saúde — Bahia (2026)","valor":13000000000.0},{"nome":"Saúde — Estado de SP (2026)","valor":37900000000.0},{"nome":"Educação — Bahia (2026)","valor":12400000000.0},{"nome":"Educação — Prefeitura do Rio (2026)","valor":10000000000.0},{"nome":"Educação — Prefeitura de SP (2026)","valor":26530000000.0},{"nome":"Novo PAC — Ferrovias (até 2026)","valor":94200000000.0},{"nome":"Novo PAC — Rodovias (até 2026)","valor":185800000000.0},{"nome":"Novo PAC — Energia (até 2026)","valor":466700000000.0},{"nome":"Novo PAC — total (até 2026)","valor":1300000000000.0}]}
+  /* ── MILHÕES ─────────────────────────────────────────────── */
+  {"grupo":"≈ R$ 5 mi","cor":"#00E5FF","itens":[
+    {"nome":"Apoio à Manutenção de UBS Rurais — SCTIE/MS (LOA 2026)","valor":5100000,"fonte":"Portal Transparência","url":"https://portaldatransparencia.gov.br/"},
+    {"nome":"Fomento ao Artesanato Nacional — SDC/MDIC (LOA 2026)","valor":4800000,"fonte":"Portal Transparência","url":"https://portaldatransparencia.gov.br/"},
+    {"nome":"Produção Cultural Independente — MinC (LOA 2026)","valor":5400000,"fonte":"Portal Transparência","url":"https://portaldatransparencia.gov.br/"}
+  ]},
+  {"grupo":"≈ R$ 20 mi","cor":"#00E5FF","itens":[
+    {"nome":"Serra da Saudade/MG (~850 hab.) — menor LOA municipal 2024","valor":32660000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"São João das Missões/MG (~6,4k hab.) — LOA 2024","valor":21800000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"Maraã/AM (~15k hab.) — LOA 2024","valor":19200000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"}
+  ]},
+  {"grupo":"≈ R$ 50 mi","cor":"#00E5FF","itens":[
+    {"nome":"Uiramutã/RR (~14k hab.) — LOA 2024","valor":47000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"São Gabriel da Cachoeira/AM (~45k hab.) — LOA 2024","valor":54000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"Cujubim/RO (~15k hab.) — LOA 2024","valor":52000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"}
+  ]},
+  {"grupo":"≈ R$ 100 mi","cor":"#00E5FF","itens":[
+    {"nome":"Guarantã do Norte/MT (~35k hab.) — LOA 2024","valor":98000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"Abaetetuba/PA (~160k hab.) — LOA 2024","valor":104000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"São Félix do Araguaia/MT (~12k hab.) — LOA 2024","valor":92000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"}
+  ]},
+  {"grupo":"≈ R$ 200 mi","cor":"#00E5FF","itens":[
+    {"nome":"Alagoinhas/BA (~155k hab.) — LOA 2024","valor":185000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"Palmas/TO (capital, ~315k hab.) — LOA 2024","valor":211000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"Açailândia/MA (~110k hab.) — LOA 2024","valor":193000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"}
+  ]},
+  {"grupo":"≈ R$ 500 mi","cor":"#00E5FF","itens":[
+    {"nome":"Olímpia/SP (~60k hab., polo termal) — LOA 2026","valor":454000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"Parauapebas/PA (~220k hab., mineração) — LOA 2024","valor":512000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"Itaguaí/RJ (~130k hab., porto) — LOA 2024","valor":543000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"}
+  ]},
+  /* ── BILHÕES ──────────────────────────────────────────────── */
+  {"grupo":"≈ R$ 1 bi","cor":"#39FF14","itens":[
+    {"nome":"Caruaru/PE (~360k hab.) — LOA 2024","valor":1050000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"Feira de Santana/BA (~620k hab.) — LOA 2024","valor":980000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"Cascavel/PR (~340k hab.) — LOA 2024","valor":1020000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"}
+  ]},
+  {"grupo":"≈ R$ 2 bi","cor":"#39FF14","itens":[
+    {"nome":"Três Lagoas/MS (polo celulose) — LOA 2024","valor":1480000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"Vitória da Conquista/BA (~350k hab.) — LOA 2024","valor":1860000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"Anápolis/GO (~380k hab.) — LOA 2024","valor":2100000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"}
+  ]},
+  {"grupo":"≈ R$ 5 bi","cor":"#39FF14","itens":[
+    {"nome":"Mogi das Cruzes/SP (~460k hab.) — LOA 2024","valor":3240000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"Portos e Aeroportos — Min. Transportes (LOA 2026)","valor":3950000000,"fonte":"Portal Transparência","url":"https://portaldatransparencia.gov.br/"},
+    {"nome":"João Pessoa/PB (capital) — LOA 2026","valor":5451526730,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"}
+  ]},
+  {"grupo":"≈ R$ 10 bi","cor":"#39FF14","itens":[
+    {"nome":"Roraima — menor orçamento estadual (LOA 2026)","valor":9920000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"Amapá — LOA 2026","valor":12425000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"Min. Agricultura (MAPA) — LOA 2026","valor":12040000000,"fonte":"Portal Transparência","url":"https://portaldatransparencia.gov.br/"}
+  ]},
+  {"grupo":"≈ R$ 20 bi","cor":"#39FF14","itens":[
+    {"nome":"Min. Transportes — total (LOA 2026)","valor":18430000000,"fonte":"Portal Transparência","url":"https://portaldatransparencia.gov.br/"},
+    {"nome":"Piauí — LOA 2026","valor":23000000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"Min. Ciência, Tecnologia e Inovação — LOA 2026","valor":15300000000,"fonte":"Portal Transparência","url":"https://portaldatransparencia.gov.br/"}
+  ]},
+  {"grupo":"≈ R$ 30 bi","cor":"#39FF14","itens":[
+    {"nome":"Maranhão — LOA 2026","valor":33056000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"Tocantins — LOA 2026","valor":31000000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"Amazonas — LOA 2026","valor":28400000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"}
+  ]},
+  {"grupo":"≈ R$ 50 bi","cor":"#39FF14","itens":[
+    {"nome":"Ceará — LOA 2026","valor":48050000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"Rio de Janeiro (município) — LOA 2026","valor":52400000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"Goiás — LOA 2026","valor":53400000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"}
+  ]},
+  {"grupo":"≈ R$ 100 bi","cor":"#39FF14","itens":[
+    {"nome":"Paraná — LOA 2026","valor":81600000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"Bahia — LOA 2026","valor":77390000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"São Paulo (município) — LOA 2026","valor":137400000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"}
+  ]},
+  {"grupo":"≈ R$ 150 bi","cor":"#39FF14","itens":[
+    {"nome":"Defesa Nacional — LOA 2026","valor":142000000000,"fonte":"Portal Transparência","url":"https://portaldatransparencia.gov.br/"},
+    {"nome":"Minas Gerais — LOA 2026","valor":146970000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"Bolsa Família — execução 2024 (MDS)","valor":158630000000,"fonte":"Portal Transparência","url":"https://portaldatransparencia.gov.br/"}
+  ]},
+  {"grupo":"≈ R$ 200 bi","cor":"#39FF14","itens":[
+    {"nome":"Empresas Estatais Federais — orçamento consolidado 2024 (STN)","valor":197800000000,"fonte":"STN/Tesouro","url":"https://www.tesourotransparente.gov.br/"},
+    {"nome":"Novo PAC — Rodovias (total previsto 2023-2026)","valor":185800000000,"fonte":"Portal Transparência","url":"https://portaldatransparencia.gov.br/"},
+    {"nome":"Honduras — PIB 2025 (FMI WEO, conv. R$5,59/US$)","valor":211822000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"}
+  ]},
+  {"grupo":"≈ R$ 250 bi","cor":"#39FF14","itens":[
+    {"nome":"Saúde (SUS total) — LOA 2026","valor":271300000000,"fonte":"Portal Transparência","url":"https://portaldatransparencia.gov.br/"},
+    {"nome":"Educação total — LOA 2026","valor":233700000000,"fonte":"Portal Transparência","url":"https://portaldatransparencia.gov.br/"},
+    {"nome":"Bolívia — PIB 2025 (FMI WEO, conv. R$5,59/US$)","valor":251550000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"}
+  ]},
+  {"grupo":"≈ R$ 300 bi","cor":"#39FF14","itens":[
+    {"nome":"FUNDEB — LOA 2025","valor":341100000000,"fonte":"Portal Transparência","url":"https://portaldatransparencia.gov.br/"},
+    {"nome":"Transferências da União a estados e municípios — 2024 (STN)","valor":338870000000,"fonte":"STN/Tesouro","url":"https://www.tesourotransparente.gov.br/"},
+    {"nome":"Jordânia — PIB 2025 (FMI WEO, conv. R$5,59/US$)","valor":307450000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"}
+  ]},
+  {"grupo":"≈ R$ 400 bi","cor":"#39FF14","itens":[
+    {"nome":"São Paulo (estado) — LOA 2026","valor":382300000000,"fonte":"Siconfi/STN","url":"https://siconfi.tesouro.gov.br/"},
+    {"nome":"Panamá — PIB 2025 (FMI WEO, conv. R$5,59/US$)","valor":452800000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"},
+    {"nome":"Uruguai — PIB 2025 (FMI WEO, conv. R$5,59/US$)","valor":441610000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"}
+  ]},
+  {"grupo":"≈ R$ 500 bi","cor":"#39FF14","itens":[
+    {"nome":"Angola — PIB 2025 (FMI WEO, conv. R$5,59/US$)","valor":514280000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"},
+    {"nome":"Tanzânia — PIB 2025 (FMI WEO, conv. R$5,59/US$)","valor":475150000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"},
+    {"nome":"Omã — PIB 2025 (FMI WEO, conv. R$5,59/US$)","valor":559000000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"}
+  ]},
+  /* ── TRILHÕES ─────────────────────────────────────────────── */
+  {"grupo":"≈ R$ 1 tri","cor":"#FFD600","itens":[
+    {"nome":"RGPS — benefícios previdenciários pagos em 2024 (STN)","valor":1128000000000,"fonte":"STN/Tesouro","url":"https://www.tesourotransparente.gov.br/"},
+    {"nome":"Hungria — PIB 2025 (FMI WEO, conv. R$5,59/US$)","valor":1202350000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"},
+    {"nome":"Grécia — PIB 2025 (FMI WEO, conv. R$5,59/US$)","valor":1369950000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"}
+  ]},
+  {"grupo":"≈ R$ 2 tri","cor":"#FFD600","itens":[
+    {"nome":"Previdência Social — LOA 2026","valor":1978000000000,"fonte":"Portal Transparência","url":"https://portaldatransparencia.gov.br/"},
+    {"nome":"Arrecadação federal total (Receita Federal) — 2024","valor":2652000000000,"fonte":"Receita Federal","url":"https://www.gov.br/receitafederal/"},
+    {"nome":"Colômbia — PIB 2025 (FMI WEO, conv. R$5,59/US$)","valor":2121620000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"}
+  ]},
+  {"grupo":"≈ R$ 5 tri","cor":"#FFD600","itens":[
+    {"nome":"LOA 2025 — orçamento federal total","valor":5800000000000,"fonte":"Portal Transparência","url":"https://portaldatransparencia.gov.br/"},
+    {"nome":"Países Baixos (Holanda) — PIB 2025 (FMI WEO, conv. R$5,59/US$)","valor":6708000000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"},
+    {"nome":"Suíça — PIB 2025 (FMI WEO, conv. R$5,59/US$)","valor":4863300000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"}
+  ]},
+  {"grupo":"≈ R$ 10 tri","cor":"#FFD600","itens":[
+    {"nome":"DBGG — Dívida Bruta do Governo Geral (jun/2025, STN)","valor":10017000000000,"fonte":"STN/Tesouro","url":"https://www.tesourotransparente.gov.br/"},
+    {"nome":"PIB do Brasil 2024 (IBGE)","valor":11700000000000,"fonte":"IBGE","url":"https://www.ibge.gov.br/"},
+    {"nome":"México — PIB 2025 (FMI WEO, conv. R$5,59/US$)","valor":10142260000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"}
+  ]},
+  {"grupo":"≈ R$ 15 tri","cor":"#FFD600","itens":[
+    {"nome":"PIB do Brasil 2025 — estimativa (FMI WEO)","valor":12700000000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"},
+    {"nome":"Itália — PIB 2025 (FMI WEO, conv. R$5,59/US$)","valor":13387050000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"},
+    {"nome":"Canadá — PIB 2025 (FMI WEO, conv. R$5,59/US$)","valor":12219740000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"}
+  ]},
+  {"grupo":"≈ R$ 20 tri","cor":"#FFD600","itens":[
+    {"nome":"França — PIB 2025 (FMI WEO, conv. R$5,59/US$)","valor":18290480000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"},
+    {"nome":"Reino Unido — PIB 2025 (FMI WEO, conv. R$5,59/US$)","valor":18368540000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"},
+    {"nome":"ASEAN — PIB total 2025 (Banco Mundial)","valor":22360000000000,"fonte":"Banco Mundial","url":"https://data.worldbank.org/"}
+  ]},
+  {"grupo":"≈ R$ 30 tri","cor":"#FFD600","itens":[
+    {"nome":"Alemanha — PIB 2025 (FMI WEO, conv. R$5,59/US$)","valor":27664910000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"},
+    {"nome":"Japão — PIB 2025 (FMI WEO, conv. R$5,59/US$)","valor":24534510000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"},
+    {"nome":"Índia — PIB 2025 (FMI WEO, conv. R$5,59/US$)","valor":23405330000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"}
+  ]},
+  {"grupo":"≈ R$ 50 tri","cor":"#FFD600","itens":[
+    {"nome":"América Latina e Caribe — PIB 2025 (Banco Mundial)","valor":43600000000000,"fonte":"Banco Mundial","url":"https://data.worldbank.org/"},
+    {"nome":"BRICS sem China (BR+RU+IN+ZA) — PIB combinado 2025 (FMI WEO)","valor":45726220000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"},
+    {"nome":"Ásia Meridional + MENA — PIB combinado 2025 (Banco Mundial)","valor":48630000000000,"fonte":"Banco Mundial","url":"https://data.worldbank.org/"}
+  ]},
+  {"grupo":"≈ R$ 100 tri","cor":"#FFD600","itens":[
+    {"nome":"China — PIB 2025 (FMI WEO, conv. R$5,59/US$)","valor":105371500000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"},
+    {"nome":"União Europeia (27 países) — PIB 2025 (FMI WEO, conv. R$5,59/US$)","valor":106769000000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"},
+    {"nome":"G7 excl. EUA (Canadá+Japão+Alemanha+RU+França+Itália) — 2025 (FMI WEO)","valor":114539100000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"}
+  ]},
+  {"grupo":"≈ R$ 150 tri","cor":"#FFD600","itens":[
+    {"nome":"EUA — PIB 2025 (FMI WEO, conv. R$5,59/US$)","valor":169377000000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"},
+    {"nome":"BRICS originais (BR+RU+IN+CN+ZA) — PIB combinado 2025 (FMI WEO)","valor":151097700000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"},
+    {"nome":"Europa (continente) — PIB total 2025 (FMI WEO, conv. R$5,59/US$)","valor":167681000000000,"fonte":"FMI WEO","url":"https://www.imf.org/en/Publications/WEO"}
+  ]}
 ];
 let marcasAtivas=[]; // {nome, valor} — referências marcadas no eixo X (múltiplas)
 
@@ -1330,7 +1480,8 @@ Y_OPCOES.forEach((grupo,gi)=>{
   grupo.itens.forEach(item=>{
     item.cor=FCOR[faixa(item.valor)]; // cor do marcador = faixa de grandeza do valor, não a categoria
     const idx=Y_FLAT.length;Y_FLAT.push(item);
-    yHtml+='<div class="ord-item" data-idx="'+idx+'" style="--item-color:'+item.cor+'"><span class="ord-dot"></span><div><div class="ord-label">'+item.nome+'</div><div class="ord-sub">'+fmt_tip(item.valor)+'</div></div></div>';
+    const fonteHtml=item.url?'&nbsp;<a class="ord-fonte" href="'+item.url+'" target="_blank" rel="noopener" tabindex="-1">'+item.fonte+' ↗</a>':'';
+    yHtml+='<div class="ord-item" data-idx="'+idx+'" style="--item-color:'+item.cor+'"><span class="ord-dot"></span><div><div class="ord-label">'+item.nome+'</div><div class="ord-sub">'+fmt_tip(item.valor)+fonteHtml+'</div></div></div>';
   });
   yHtml+='</div>';
 });
