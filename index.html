@@ -97,6 +97,9 @@ svg{display:block;width:100%;height:100%}
 .ord-item .ord-sub{font-size:9px;color:#5A6680;margin-top:1px}
 .ord-fonte{color:#4A90D9;font-size:8.5px;text-decoration:none;white-space:nowrap}
 .ord-fonte:hover{color:#7AB8F5;text-decoration:underline}
+.ord-detalhe{font-size:8px;color:#4A5570;margin-top:3px;line-height:1.4;font-style:italic}
+.hover-section{display:none}
+.hover-sep{height:1px;background:#1E2947;margin:4px 14px 10px}
 .menu-dropdown{padding-bottom:4px}
 .menu-section{padding:13px 15px;border-bottom:1px solid #1E2947}
 .menu-section:last-child{border-bottom:none}
@@ -189,6 +192,11 @@ svg{display:block;width:100%;height:100%}
     <div class="stage" id="stage"><div class="ref-captions" id="refCaptions"></div></div>
     <aside class="sidebar sidebar-right" id="sidebarRight">
       <button class="sb-close" id="sbRightClose" type="button" aria-label="Fechar">✕</button>
+      <div id="hoverSection" class="hover-section">
+        <div class="sb-h-row" style="padding-bottom:4px"><span class="sb-h" style="color:#8894B4;letter-spacing:.2em">EM FOCO</span></div>
+        <div id="hoverContent" style="padding:0 14px 6px"></div>
+        <div class="hover-sep"></div>
+      </div>
       <div class="sb-h-row"><span class="sb-h">Comparação</span><button class="sb-clear" id="pinClearAll" type="button" hidden>tirar todos</button></div>
       <div class="leg-note" style="padding:2px 14px 8px">clique num quadrado para fixar (até 2) · clique no cartão para soltar</div>
       <div id="pinList" class="pin-list"></div>
@@ -1187,6 +1195,9 @@ DATA.forEach(d=>{const[dd,mm,yy]=d.d.split('/').map(Number);d.ts=new Date(yy,mm-
 const NS='http://www.w3.org/2000/svg';
 const stage=document.getElementById('stage');
 const tip=document.getElementById('tip');
+const hoverSection=document.getElementById('hoverSection');
+const hoverContent=document.getElementById('hoverContent');
+function isDesktop(){return window.innerWidth>899;}
 const mcount=document.getElementById('mcount');
 const ativo={mi:true,bi:true,tri:true};
 let faixaIsolada=null;
@@ -1207,17 +1218,28 @@ function tipHTML(d,opts){
     +(d.url?'<div style="font-size:10px;color:#C8952B;margin-top:8px;padding-top:7px;border-top:1px dashed #26304F">'+(opts.pin?'↗ duplo clique para abrir a matéria':'clique para fixar · duplo clique para abrir')+'</div>':'');
 }
 function showTip(d,e){
+  if(isDesktop()){
+    hoverContent.innerHTML=tipHTML(d,{});
+    hoverSection.style.display='';
+    return;
+  }
   tip.innerHTML=tipHTML(d,{});
   tip.classList.add('on');
   tip.classList.remove('pin');
   moveTip(e);
 }
-function moveTip(e){const vw=innerWidth,vh=innerHeight,tw=Math.min(300,vw-24),th=tip.offsetHeight||190;
+function moveTip(e){
+  if(isDesktop())return;
+  const vw=innerWidth,vh=innerHeight,tw=Math.min(300,vw-24),th=tip.offsetHeight||190;
   let lx=e.clientX+15,ly=e.clientY+15;
   if(lx+tw>vw)lx=e.clientX-tw-15;if(lx<8)lx=8;
   if(ly+th>vh)ly=e.clientY-th-15;if(ly<8)ly=8;
-  tip.style.left=lx+'px';tip.style.top=ly+'px';}
-function hideTip(){tip.classList.remove('on');}
+  tip.style.left=lx+'px';tip.style.top=ly+'px';
+}
+function hideTip(){
+  tip.classList.remove('on');
+  if(hoverSection)hoverSection.style.display='none';
+}
 
 /* ---------- fatos fixados (clique) — até 2, exibidos na coluna de comparação ---------- */
 const MAX_LOCK=2;
@@ -1338,6 +1360,7 @@ function quadrado(d,x,y,s,corBase){
     showTip(d,e);
   });
   rct.addEventListener('mousemove',e=>{
+    if(isDesktop())return;
     if(locked.some(L=>L.c===rct))return;
     moveTip(e);
   });
@@ -1480,8 +1503,9 @@ Y_OPCOES.forEach((grupo,gi)=>{
   grupo.itens.forEach(item=>{
     item.cor=FCOR[faixa(item.valor)]; // cor do marcador = faixa de grandeza do valor, não a categoria
     const idx=Y_FLAT.length;Y_FLAT.push(item);
-    const fonteHtml=item.url?'&nbsp;<a class="ord-fonte" href="'+item.url+'" target="_blank" rel="noopener" tabindex="-1">'+item.fonte+' ↗</a>':'';
-    yHtml+='<div class="ord-item" data-idx="'+idx+'" style="--item-color:'+item.cor+'"><span class="ord-dot"></span><div><div class="ord-label">'+item.nome+'</div><div class="ord-sub">'+fmt_tip(item.valor)+fonteHtml+'</div></div></div>';
+    const fonteHtml=item.url?'&nbsp;<a class="ord-fonte" href="'+item.url+'" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">'+item.fonte+' ↗</a>':'';
+    const detalheHtml=item.detalhe?'<div class="ord-detalhe">'+item.detalhe+'</div>':'';
+    yHtml+='<div class="ord-item" data-idx="'+idx+'" style="--item-color:'+item.cor+'"><span class="ord-dot"></span><div><div class="ord-label">'+item.nome+'</div><div class="ord-sub">'+fmt_tip(item.valor)+fonteHtml+'</div>'+detalheHtml+'</div></div>';
   });
   yHtml+='</div>';
 });
